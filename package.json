@@ -2,6 +2,7 @@
   "name": "generator-lavender",
   "version": "0.0.0",
   "description": "A generator for Yeoman",
+  "private":"true",
   "keywords": [
     "yeoman-generator"
   ],
