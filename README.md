@@ -1,4 +1,4 @@
-# generator-lavender [![Build Status](https://secure.travis-ci.org/chitchu/generator-lavender.png?branch=master)](https://travis-ci.org/chitchu/generator-lavender)
+# generator-lavender
 
 A generator for [Yeoman](http://yeoman.io).
 
