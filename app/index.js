@@ -2,49 +2,15 @@
 var util = require('util');
 var path = require('path');
 var yeoman = require('yeoman-generator');
-
-
+var chalk = require('chalk');
 var LavenderGenerator = module.exports = function LavenderGenerator(args, options, config) {
   yeoman.generators.Base.apply(this, arguments);
-
-  this.on('end', function () {
-    this.installDependencies({ skipInstall: options['skip-install'] });
+  this.on('end', function() {           
+    console.log ("Nothing to see here. Run "+chalk.bold.yellow("'yo lavender:webapp'")+" or "+chalk.bold.yellow("'yo lavender:email'") +" instead.");
   });
 
   this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
 };
 
+
 util.inherits(LavenderGenerator, yeoman.generators.Base);
-
-LavenderGenerator.prototype.askFor = function askFor() {
-  var cb = this.async();
-
-  // have Yeoman greet the user.
-  console.log(this.yeoman);
-
-  var prompts = [{
-    type: 'confirm',
-    name: 'someOption',
-    message: 'Would you like to enable this option?',
-    default: true
-  }];
-
-  this.prompt(prompts, function (props) {
-    this.someOption = props.someOption;
-
-    cb();
-  }.bind(this));
-};
-
-LavenderGenerator.prototype.app = function app() {
-  this.mkdir('app');
-  this.mkdir('app/templates');
-
-  this.copy('_package.json', 'package.json');
-  this.copy('_bower.json', 'bower.json');
-};
-
-LavenderGenerator.prototype.projectfiles = function projectfiles() {
-  this.copy('editorconfig', '.editorconfig');
-  this.copy('jshintrc', '.jshintrc');
-};
