@@ -180,7 +180,7 @@ WebappGenerator.prototype.askFor = function askFor() {
     this.vendorGruntTasks = "";
     if (this.includeBootstrap) {
       this.vendorStyleSheets += styleTag("devassets/vendor/bootstrap/dist/css/bootstrap.css");
-      this.vendorGruntTasks += ",\nbootstrap:{files:{\"" + this.devFolder + "devassets/css/vendor/bootstrap/dist/css/bootstrap.css\": \"" + this.devFolder + "devassets/vendor/bootstrap/less/bootstrap.less\"}}";
+      this.vendorGruntTasks += ",\r\n\tbootstrap:{files:{\"" + this.devFolder + "devassets/css/vendor/bootstrap/dist/css/bootstrap.css\": \"" + this.devFolder + "devassets/vendor/bootstrap/less/bootstrap.less\"}}";
     }
 
     if (this.includeJQUI) {

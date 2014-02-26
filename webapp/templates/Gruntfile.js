@@ -11,35 +11,42 @@ var mountFolder = function(connect, dir) {
 
 module.exports = function(grunt) {
   // load all grunt tasks
-  require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);  
+  require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
+  var expressport = 9000;
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    app: {
+      src: '<%=devFolder%>',
+      dist: '<%=buildFolder%>',
+      srcfile: '<%=devFile%>',
+      distfile: '<%=buildFile%>'
+    },
     watch: {
       options: {
         nospawn: true,
         livereload: LIVERELOAD_PORT
       },
       html: {
-        files: ['<%=devFolder%>*.html'],
+        files: ['<%%= app.src %>*.html'],
         tasks: []
       },
       scripts: {
-        files: ['<%=devFolder%>**/*.js'],
+        files: ['<%%= app.src %>**/*.js'],
         tasks: []
       },
       less: {
-        files: ['<%=devFolder%>**/*.less'],
+        files: ['<%%= app.src %>**/*.less'],
         tasks: ['less:build'],
         options: {
           interrupt: true
         }
       },
       css: {
-        files: ['<%=devFolder%>**/*.css'],
+        files: ['<%%= app.src %>**/*.css'],
         tasks: []
       },
       images: {
-        files: ['<%=devFolder%>**/*.jpg', '<%=devFolder%>**/*.png', '<%=devFolder%>**/*.gif'],
+        files: ['<%%= app.src %>**/*.jpg', '<%%= app.src %>**/*.png', '<%%= app.src %>**/*.gif'],
         tasks: []
       }
     },
@@ -47,12 +54,12 @@ module.exports = function(grunt) {
       options: {
         port: 9000,
         hostname: 'localhost',
-        base: '<%=devFolder%>'
+        base: '<%%= app.src %>'
       },
       livereload: {
         options: {
           middleware: function(connect) {
-            return [lrSnippet, mountFolder(connect, '<%=devFolder%>')];
+            return [lrSnippet, mountFolder(connect, '<%%= app.src %>')];
           }
         }
       }
@@ -65,25 +72,39 @@ module.exports = function(grunt) {
     less: {
       build: {
         options: {
-          paths: ["<%=devFolder%>devassets/less"]
+          paths: ["<%%= app.src %>devassets/less"]
         },
         files: {
-          "<%=devFolder%>devassets/css/main.css": "<%=devFolder%>devassets/less/main.less"
+          "<%%= app.src %>devassets/css/main.css": "<%%= app.src %>devassets/less/main.less"
         }
-      }<%=vendorGruntTasks%>
+      } <%= vendorGruntTasks %>
     },
+
     useminPrepare: {
-      html: '<%=devFolder%><%= devFile%>',
       options: {
         root: <%= useminDevDest %> ,
         dest: <%= useminBuildDest %>
-      }
+      },
+      html: '<%%= app.src %>/dev.index.html'
     },
     usemin: {
-      html: '<%=devFolder%>tmp.<%=devFile%>'
+      options: {
+        assetsDirs: ['<%%= app.dist %>']
+      },
+      html: ['<%%= app.dist %>/{,*/}*.html'],
+      css: ['<%%= app.dist %>/assets/css/{,*/}*.css']
     },
     clean: {
-      build: ['.tmp', '<%=devFolder%>tmp.<%=devFile%>']
+      build: ['.tmp', '<%= app.src %>tmp.<%= app.srcfile %>'],
+      dist: {
+        files: [{
+          dot: true,
+          src: [
+            '.tmp',
+            '<%%= app.dist %>/*'
+          ]
+        }]
+      }
     },
     cssmin: {
       options: {
@@ -97,29 +118,73 @@ module.exports = function(grunt) {
       }
     },
     htmlmin: {
-      tmp: {
-        files: {
-          '<%=devFolder%>tmp.<%=devFile%>':'<%=devFolder%><%=devFile%>'
-        }
-      },
       dist: {
         options: {
+          collapseBooleanAttributes: true,
           collapseWhitespace: true,
           removeAttributeQuotes: true,
-          removeRedundantAttributes: true,
-          collapseBooleanAttributes: true,
+          removeCommentsFromCDATA: true,
           removeEmptyAttributes: true,
           removeOptionalTags: true,
-          removeComments: true
+          removeRedundantAttributes: true,
+          useShortDoctype: true
         },
+        files: [{
+          expand: true,
+          cwd: '<%%= app.dist %>',
+          src: '{,*/}*.html',
+          dest: '<%%= app.dist %>'
+        }]
+      }
+    },
+    'bower-install': {
+      app: {
+        html: '<%%= app.src %>/<%%= app.srcfile %>',
+        ignorePath: '<%%= app.src %>'
+      }
+    },
+    copy: {
+      dist: {
+        files: [{
+          expand: true,
+          dot: true,
+          cwd: '<%%= app.src %>',
+          dest: '<%%= app.dist %>',
+          src: [
+            '*.{ico,png,txt}',
+            '.htaccess',
+            'images/{,*/}*.webp',
+            '{,*/}*.html',
+            'styles/fonts/{,*/}*.*'
+          ]
+        }]
+      }
+    },
+    rev: {
+      dist: {
         files: {
-          '<%=buildFolder%><%=buildFile%>': '<%=devFolder%>tmp.<%=devFile%>'
+          src: [
+            '<%%= app.dist %>/assets/js/{,*/}*.js',
+            '<%%= app.dist %>/assets/css/{,*/}*.css',
+            '<%%= app.dist %>/assets/img/{,*/}*.{gif,jpeg,jpg,png,webp}'
+          ]
         }
       }
     }
   });
   grunt.registerTask('default', ['less:build']);
-  grunt.registerTask('init', ['less:bootstrap']);
+  grunt.registerTask('init', ['bower-install', 'less:bootstrap']);
   grunt.registerTask('server', ['less:build', 'connect', 'open', 'watch']);
-  grunt.registerTask('build', ['less:build', 'htmlmin:tmp', 'useminPrepare', 'concat', 'uglify', 'cssmin', 'usemin', 'htmlmin:dist', 'clean:build']);
+  grunt.registerTask('build', [
+        'clean:dist',
+        'useminPrepare',                
+        'concat',
+        'cssmin',
+        'uglify',
+        'copy:dist',        
+        'rev',
+        'usemin',
+        'htmlmin',
+        'clean:build'
+    ]);
 };

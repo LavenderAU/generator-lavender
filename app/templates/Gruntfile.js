@@ -15,6 +15,12 @@ module.exports = function(grunt) {
   var expressport = 9000;
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    app: {
+      src: '<%=devFolder%>',
+      dist: '<%=buildFolder%>',
+      srcfile: '<%=devFile%>',
+      distfile: '<%=buildFile%>'
+    },
     watch: {
       options: {
         nospawn: true,
@@ -71,7 +77,7 @@ module.exports = function(grunt) {
         files: {
           "<%=devFolder%>devassets/css/main.css": "<%=devFolder%>devassets/less/main.less"
         }
-      }<%=vendorGruntTasks%>
+      } <%= vendorGruntTasks %>
     },
     useminPrepare: {
       html: '<%=devFolder%><%= devFile%>',
@@ -100,7 +106,7 @@ module.exports = function(grunt) {
     htmlmin: {
       tmp: {
         files: {
-          '<%=devFolder%>tmp.<%=devFile%>':'<%=devFolder%><%=devFile%>'
+          '<%=devFolder%>tmp.<%=devFile%>': '<%=devFolder%><%=devFile%>'
         }
       },
       dist: {
@@ -117,10 +123,16 @@ module.exports = function(grunt) {
           '<%=buildFolder%><%=buildFile%>': '<%=devFolder%>tmp.<%=devFile%>'
         }
       }
+    },
+    'bower-install': {
+      app: {
+        html: '<%$= app.src %>/<%%= app.srcfile %>',
+        ignorePath: '<%$= app.src %>/'
+      }
     }
   });
   grunt.registerTask('default', ['less:build']);
-  grunt.registerTask('init', ['less:bootstrap']);
+  grunt.registerTask('init', ['bower-install', 'less:bootstrap']);
   grunt.registerTask('server', ['less:build', 'connect', 'open', 'watch']);
   grunt.registerTask('build', ['less:build', 'htmlmin:tmp', 'useminPrepare', 'concat', 'uglify', 'cssmin', 'usemin', 'htmlmin:dist', 'clean:build']);
 };
