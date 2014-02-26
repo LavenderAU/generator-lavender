@@ -58,7 +58,7 @@ module.exports = function(grunt) {
       livereload: {
         options: {
           middleware: function(connect) {
-            return [lrSnippet, mountFolder(connect, '<%%= app.src %>')];
+            return [lrSnippet, mountFolder(connect, 'src')];
           }
         }
       }
@@ -84,7 +84,7 @@ module.exports = function(grunt) {
         root: <%= useminDevDest %> ,
         dest: <%= useminBuildDest %>
       },
-      html: '<%%= app.src %>/dev.index.html'
+      html: '<%%= app.src %><%%= app.srcfile %>'
     },
     usemin: {
       options: {
