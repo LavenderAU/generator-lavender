@@ -89,10 +89,6 @@ WebappGenerator.prototype.askFor = function askFor() {
   }, {
     name: 'devFile',
     message: 'Cheerios. Now enter the name of the html dev file?',
-    default: 'dev.index.html'
-  }, {
-    name: 'buildFile',
-    message: 'Enter the name of the html release file?',
     default: 'index.html'
   }, {
   	type: 'checkbox',
@@ -139,7 +135,7 @@ WebappGenerator.prototype.askFor = function askFor() {
     this.includeJQUI = hasFeature('includeJQUI');
 
     this.devFile = answers.devFile;
-    this.buildFile = answers.buildFile;
+    
     if (answers.devFolder == ".") {
       this.devFolder = "";
       this.useminDevDest = "__dirname";

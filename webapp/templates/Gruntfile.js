@@ -18,8 +18,7 @@ module.exports = function(grunt) {
     app: {
       src: '<%=devFolder%>',
       dist: '<%=buildFolder%>',
-      srcfile: '<%=devFile%>',
-      distfile: '<%=buildFile%>'
+      srcfile: '<%=devFile%>'      
     },
     watch: {
       options: {
@@ -95,7 +94,7 @@ module.exports = function(grunt) {
       css: ['<%%= app.dist %>/assets/css/{,*/}*.css']
     },
     clean: {
-      build: ['.tmp', '<%= app.src %>tmp.<%= app.srcfile %>'],
+      build: ['.tmp'],
       dist: {
         files: [{
           dot: true,
