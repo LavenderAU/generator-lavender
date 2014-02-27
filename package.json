@@ -1,6 +1,6 @@
 {
   "name": "generator-lavender",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Yeoman generator for Lavender web apps.",
   "private":"true",
   "keywords": [    
