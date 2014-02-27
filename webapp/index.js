@@ -151,21 +151,8 @@ WebappGenerator.prototype.askFor = function askFor() {
     
     var indent = "\r\n\t\t";
     
-    // this.vendorScripts = scriptTag("assets/vendor/jquery/dist/jquery.js");    
-    this.vendorScripts = indent;
-    // if (this.includeGSAP) {
-    //   this.vendorScripts += indent + scriptTag("assets/vendor/greensock/src/uncompressed/TweenMax.js");
-    // }
-    // if (this.includeAccounting) {
-    //   this.vendorScripts += indent + scriptTag("assets/vendor/accounting/accounting.js");
-    // }
-    // if (this.includeRaphael) {
-    //   this.vendorScripts += indent + scriptTag("assets/vendor/raphael/raphael.js");
-    // }
-    // if (this.includeJQUI) {
-    // 	this.vendorScripts += indent + scriptTag("assets/vendor/jquery-ui/ui/jquery-ui.js");
-    // }
-    //always include core last
+    this.vendorScripts = indent;    
+
     if (this.includeCore) {
       this.vendorScripts = scriptTag("assets/js/lib/lavcore/core.src.js");
       this.vendorScripts += indent + "<!-- Place custom scripts here -->";
@@ -174,8 +161,9 @@ WebappGenerator.prototype.askFor = function askFor() {
       this.vendorScripts += indent + scriptTag("assets/js/main.js");
       this.vendorScripts += indent + "<!-- Always include app.js last -->";
       this.vendorScripts += indent + scriptTag("assets/js/app.js");
+    } else {
+      this.vendorScripts = indent + scriptTag("assets/js/main.js");
     }
-
     this.vendorStyleSheets = "";
     this.vendorGruntTasks = "";
     if (this.includeBootstrap) {
@@ -185,7 +173,6 @@ WebappGenerator.prototype.askFor = function askFor() {
     if (this.includeJQUI) {
     	this.vendorStyleSheets += indent + styleTag("assets/vendor/jquery-ui/themes/base/jquery.ui.all.css");
     }
-
     cb();
   }.bind(this));
 
@@ -248,9 +235,4 @@ WebappGenerator.prototype.projectfiles = function projectfiles() {
     '@import "../vendor/less-elements/elements.less";');
 
   this.template('h5bp.html', this.devFolder + "/" + this.devFile);
-};
-
-
-WebappGenerator.prototype.getCore = function getCore() {
-
 };
