@@ -35,7 +35,7 @@ var WebappGenerator = module.exports = function WebappGenerator(args, options, c
     this.bowerInstall(projectDep, {
       save: true,
       callback: function () {
-        console.log ("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        //console.log ("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
       }
     });
 
@@ -168,6 +168,12 @@ WebappGenerator.prototype.askFor = function askFor() {
     //always include core last
     if (this.includeCore) {
       this.vendorScripts = scriptTag("assets/js/lib/lavcore/core.src.js");
+      this.vendorScripts += indent + "<!-- Place custom scripts here -->";
+      this.vendorScripts += "\r\n";
+      this.vendorScripts += indent + "<!-- -->";
+      this.vendorScripts += indent + scriptTag("assets/js/main.js");
+      this.vendorScripts += indent + "<!-- Always include app.js last -->";
+      this.vendorScripts += indent + scriptTag("assets/js/app.js");
     }
 
     this.vendorStyleSheets = "";
@@ -210,6 +216,7 @@ WebappGenerator.prototype.app = function app() {
 };
 
 WebappGenerator.prototype.projectfiles = function projectfiles() {
+  this.coreInitElement = "";
   if (this.includeCore) {
     var cb = this.async();
     console.log(chalk.bold.green("\n*** *** *** *** *** *** *** *** *** *** *** *** ***\n\nDownloading Lavender Core.\n\n*** *** *** *** *** *** *** *** *** *** *** *** ***"));
@@ -226,10 +233,16 @@ WebappGenerator.prototype.projectfiles = function projectfiles() {
     }).on('error', function(e) {
       console.log("Error: " + e.message);
     });
+
+    this.coreInitElement = '<div data-root="window.Main">\r\n\t</div>';
+    this.template ('app.js', this.devFolder + '/assets/js/app.js');
+    this.template ('main.js', this.devFolder + '/assets/js/main.js');
+  } else {
+    this.write(this.devFolder + '/assets/js/main.js', '//main.js');
   }
 
   this.copy('bowerrc', '.bowerrc');
-  this.write(this.devFolder + '/assets/js/main.js', '//main.js');
+  
   this.write(this.devFolder + '/assets/css/main.css', '/* */');
   this.write(this.devFolder + '/assets/less/main.less',
     '@import "../vendor/less-elements/elements.less";');

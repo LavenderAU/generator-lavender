@@ -13,6 +13,7 @@ module.exports = function(grunt) {
   // load all grunt tasks
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
   var expressport = 9000;
+  var mntfld = '<%=devFolder%>';
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     app: {
@@ -58,7 +59,7 @@ module.exports = function(grunt) {
       livereload: {
         options: {
           middleware: function(connect) {
-            return [lrSnippet, mountFolder(connect, '<%%= app.src  %>')];
+            return [lrSnippet, mountFolder(connect, mntfld)];
           }
         }
       }
