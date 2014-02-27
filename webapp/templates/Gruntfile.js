@@ -184,6 +184,7 @@ module.exports = function(grunt) {
   grunt.registerTask('server', ['less:build', 'connect', 'open', 'watch']);
   grunt.registerTask('build', [
     'clean:dist',
+    'less:build',
     'useminPrepare',
     'concat',
     'cssmin',
