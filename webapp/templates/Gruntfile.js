@@ -76,7 +76,7 @@ module.exports = function(grunt) {
         files: {
           "<%%= app.src %>/assets/css/main.css": "<%%= app.src %>/assets/less/main.less"
         }
-      } <%= vendorGruntTasks %>
+      }<%= vendorGruntTasks %>
     },
 
     useminPrepare: {
@@ -179,9 +179,17 @@ module.exports = function(grunt) {
       }
     }
   });
-  grunt.registerTask('default', ['less:build']);
-  grunt.registerTask('init', ['bower-install', 'less:bootstrap']);
-  grunt.registerTask('server', ['less:build', 'connect', 'open', 'watch']);
+  grunt.registerTask('default', [
+    'less:build']);
+  grunt.registerTask('init', [
+    'bower-install', 
+    'less:bootstrap']);
+  grunt.registerTask('server', [
+    'less:build', 
+    'connect', 
+    'open', 
+    'watch']);
+
   grunt.registerTask('build', [
     'clean:dist',
     'less:build',

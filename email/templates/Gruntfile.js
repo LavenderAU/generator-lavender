@@ -117,8 +117,8 @@ module.exports = function(grunt) {
       account1: {
         src: ['index.min.html'],
         options: {
-          username: 'clint.b@lavender.ad',
-          password: 'b@ckdr0p',
+          username: '',
+          password: '',
           url: 'https://lavender.litmus.com',
           clients: emailClients
         }
@@ -126,8 +126,8 @@ module.exports = function(grunt) {
       account2: {
         src: ['index.min.html'],
         options: {
-          username: 'annie.c@lavender.ad',
-          password: 'b@ckdr0p',
+          username: '',
+          password: '',
           url: 'https://lavender2.litmus.com',
           clients: emailClients
         }
