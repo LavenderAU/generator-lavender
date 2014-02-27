@@ -7,39 +7,45 @@ var WebappGenerator = module.exports = function WebappGenerator(args, options, c
 
   yeoman.generators.Base.apply(this, arguments);
 
+  this.vendorList = [
+    {id:"greensock", name:"Greensock TweenMax"},
+    {id:"bootstrap", name:"Bootstrap"},
+    {id:"respond", name:"RespondJS"},
+    {id:"html5shiv", name:"HTML5Shiv"},
+    {id:"modernizr", name:"Modernizr"},
+    {id:"raphael", name:"Raphael JS"},
+    {id:"accounting", name:"accounting.js"},
+    {id:"jquery-ui", name:"Jquery UI"}
+  ];
+
   this.on('end', function() {
-    this.installDependencies({
-      skipInstall: options['skip-install'],
-      callback: function() {
-        console.log(chalk.bold.green("\n*** *** *** *** *** *** *** *** *** *** *** *** ***\n\nAll done. Compiling vendor specific stylesheets.\n\n*** *** *** *** *** *** *** *** *** *** *** *** ***"));
-        this.spawnCommand('grunt', ['init']);
-      }.bind(this)
-    });
     var projectDep = [
       'jquery',
       'normalize.css',
       'less-elements'
-    ];
+    ];    
 
-    if (this.includeGSAP) {
-      projectDep.push('greensock');
+    var i = -1, ii = this.selectedFeatures.length - 1;
+    while (i++ != ii) {
+      if (this.selectedFeatures[i] != 'includeCore') {
+        projectDep.push(this.selectedFeatures[i]);
+      }
     }
-    if (this.includeBootstrap) {
-      projectDep.push('bootstrap');
-    }
-    if (this.includeRaphael) {
-      projectDep.push('raphael');
-    }
-    if (this.includeAccounting) {
-      projectDep.push('accounting');
-    }
-
-    if (this.includeJQUI) {
-    	projectDep.push('jquery-ui')
-    }
+    
     this.bowerInstall(projectDep, {
-      save: true
+      save: true,
+      callback: function () {
+        console.log ("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+      }
     });
+
+    this.installDependencies({
+      skipInstall: options['skip-install'],
+      callback: function() {        
+        console.log(chalk.bold.green("\n*** *** *** *** *** *** *** *** *** *** *** *** ***\n\nAll done. Compiling vendor specific stylesheets.\n\n*** *** *** *** *** *** *** *** *** *** *** *** ***"));
+        this.spawnCommand('grunt', ['init']);
+      }.bind(this)
+    });    
 
   });
 
@@ -66,7 +72,7 @@ WebappGenerator.prototype.welcome = function welcome() {
   var prompts = [{
     name: 'projectName',
     message: 'What is the job code for this project?',
-    default: 'LDXXXX'
+    default: 'ABC123'
   }];
 
   this.prompt(prompts, function(answers) {
@@ -77,6 +83,21 @@ WebappGenerator.prototype.welcome = function welcome() {
 
 WebappGenerator.prototype.askFor = function askFor() {
   var cb = this.async();
+
+  var i = -1, ii = this.vendorList.length - 1, 
+    choicesList = [{
+      name: 'Lavender Core',
+      value: 'includeCore',
+      checked: false
+    }];
+
+  while (i++ != ii) {
+    choicesList.push({
+      name: this.vendorList[i].name,
+      value: this.vendorList[i].id,
+      checked:false
+    })
+  }
 
   var prompts = [{
     name: 'devFolder',
@@ -94,45 +115,21 @@ WebappGenerator.prototype.askFor = function askFor() {
   	type: 'checkbox',
     name: 'features',
     message: 'Awesomesauce. Now what more would you like?',
-    choices: [{
-      name: 'Lavender Core',
-      value: 'includeCore',
-      checked: false
-    }, {
-      name: 'Bootstrap',
-      value: 'includeBootstrap',
-      checked: false
-    }, {
-      name: 'Greensock JS',
-      value: 'includeGSAP',
-      checked: false
-    }, {
-    	name: 'Jquery-UI',
-    	value: 'includeJQUI',
-    	checked: false
-    }, {
-      name: 'accounting.js',
-      value: 'includeAccounting',
-      checked: false
-    }, {
-      name: 'Raphael',
-      value: 'includeRaphael',
-      checked: false
-    }]
+    choices: choicesList
   }];
 
   this.prompt(prompts, function(answers) {
     var features = answers.features;
+    this.selectedFeatures = features;
 
     function hasFeature(feat) {
       return features.indexOf(feat) !== -1;
-    }
+    }    
+    
     this.includeCore = hasFeature('includeCore');
-    this.includeBootstrap = hasFeature('includeBootstrap');
-    this.includeGSAP = hasFeature('includeGSAP');
-    this.includeRaphael = hasFeature('includeRaphael');
-    this.includeAccounting = hasFeature('includeAccounting');
-    this.includeJQUI = hasFeature('includeJQUI');
+    //doing this for css
+    this.includeBootstrap = hasFeature('bootstrap');
+    this.includeJQUI = hasFeature('jquery-ui');
 
     this.devFile = answers.devFile;
     
@@ -140,7 +137,7 @@ WebappGenerator.prototype.askFor = function askFor() {
       this.devFolder = "";
       this.useminDevDest = "__dirname";
     } else {
-      this.devFolder = this.useminDevDest = answers.devFolder + "/";
+      this.devFolder = this.useminDevDest = answers.devFolder;
       this.useminDevDest = "'" + this.useminDevDest + "'";
     }
 
@@ -148,39 +145,39 @@ WebappGenerator.prototype.askFor = function askFor() {
       this.buildFolder = "";
       this.useminBuildDest = "__dirname";
     } else {
-      this.buildFolder = this.useminBuildDest = answers.buildFolder + "/";
+      this.buildFolder = this.useminBuildDest = answers.buildFolder;
       this.useminBuildDest = "'" + this.useminBuildDest + "'";
     }
-
-    //include jquery by default
-    this.vendorScripts = scriptTag("devassets/vendor/jquery/dist/jquery.js");
+    
     var indent = "\r\n\t\t";
-    if (this.includeGSAP) {
-      this.vendorScripts += indent + scriptTag("devassets/vendor/greensock/src/uncompressed/TweenMax.js");
-    }
-    if (this.includeAccounting) {
-      this.vendorScripts += indent + scriptTag("devassets/vendor/accounting/accounting.js");
-    }
-    if (this.includeRaphael) {
-      this.vendorScripts += indent + scriptTag("devassets/vendor/raphael/raphael.js");
-    }
-    if (this.includeJQUI) {
-    	this.vendorScripts += indent + scriptTag("devassets/vendor/jquery-ui/ui/jquery-ui.js");
-    }
+    
+    // this.vendorScripts = scriptTag("assets/vendor/jquery/dist/jquery.js");    
+    this.vendorScripts = indent;
+    // if (this.includeGSAP) {
+    //   this.vendorScripts += indent + scriptTag("assets/vendor/greensock/src/uncompressed/TweenMax.js");
+    // }
+    // if (this.includeAccounting) {
+    //   this.vendorScripts += indent + scriptTag("assets/vendor/accounting/accounting.js");
+    // }
+    // if (this.includeRaphael) {
+    //   this.vendorScripts += indent + scriptTag("assets/vendor/raphael/raphael.js");
+    // }
+    // if (this.includeJQUI) {
+    // 	this.vendorScripts += indent + scriptTag("assets/vendor/jquery-ui/ui/jquery-ui.js");
+    // }
     //always include core last
     if (this.includeCore) {
-      this.vendorScripts += indent + scriptTag("devassets/js/lib/lavcore/core.src.js");
+      this.vendorScripts = scriptTag("assets/js/lib/lavcore/core.src.js");
     }
 
     this.vendorStyleSheets = "";
     this.vendorGruntTasks = "";
     if (this.includeBootstrap) {
-      this.vendorStyleSheets += styleTag("devassets/vendor/bootstrap/dist/css/bootstrap.css");
-      this.vendorGruntTasks += ",\r\n\tbootstrap:{files:{\"" + this.devFolder + "devassets/css/vendor/bootstrap/dist/css/bootstrap.css\": \"" + this.devFolder + "devassets/vendor/bootstrap/less/bootstrap.less\"}}";
+      this.vendorStyleSheets += styleTag("assets/vendor/bootstrap/dist/css/bootstrap.css");
+      this.vendorGruntTasks += ",\r\n\tbootstrap:{files:{\"" + this.devFolder + "/assets/css/vendor/bootstrap/dist/css/bootstrap.css\": \"" + this.devFolder + "/assets/vendor/bootstrap/less/bootstrap.less\"}}";
     }
-
     if (this.includeJQUI) {
-    	this.vendorStyleSheets += indent + styleTag("devassets/vendor/jquery-ui/themes/base/jquery.ui.all.css");
+    	this.vendorStyleSheets += indent + styleTag("assets/vendor/jquery-ui/themes/base/jquery.ui.all.css");
     }
 
     cb();
@@ -190,20 +187,16 @@ WebappGenerator.prototype.askFor = function askFor() {
 
 WebappGenerator.prototype.app = function app() {
   var folders = [
-    this.devFolder,
-    this.buildFolder,
-    this.buildFolder + 'assets',
-    this.buildFolder + 'assets/img',
-    this.buildFolder + 'assets/css',
-    this.buildFolder + 'assets/css/vendor',
-    this.buildFolder + 'assets/js',
-    this.buildFolder + 'assets/js/vendor',
-    this.devFolder + 'devassets',
-    this.devFolder + 'devassets/less',
-    this.devFolder + 'devassets/js',
-    this.devFolder + 'devassets/js/lib',
-    this.devFolder + 'devassets/css',
-    this.devFolder + 'devassets/css/vendor'
+    this.devFolder,    
+    this.devFolder + '/assets',
+    this.devFolder + '/assets/less',
+    this.devFolder + '/assets/js',
+    this.devFolder + '/assets/js',
+    this.devFolder + '/assets/js/lib',
+    this.devFolder + '/assets/css',
+    this.devFolder + '/assets/css/vendor',
+    this.devFolder + '/assets/img',
+    this.devFolder + '/assets/vendor'
   ];
   var i = -1,
     ii = folders.length - 1;
@@ -227,7 +220,7 @@ WebappGenerator.prototype.projectfiles = function projectfiles() {
       res.on("data", function(chunk) {        
         parts.push(chunk);        
       }).on('end', function() {
-        _this.write(_this.devFolder + 'devassets/js/lib/lavcore/core.src.js', parts.join(''));        
+        _this.write(_this.devFolder + '/assets/js/lib/lavcore/core.src.js', parts.join(''));        
         cb();
       });
     }).on('error', function(e) {
@@ -236,12 +229,12 @@ WebappGenerator.prototype.projectfiles = function projectfiles() {
   }
 
   this.copy('bowerrc', '.bowerrc');
-  this.write(this.devFolder + 'devassets/js/main.js', '//main.js');
-  this.write(this.devFolder + 'devassets/css/main.css', '/* */');
-  this.write(this.devFolder + 'devassets/less/main.less',
+  this.write(this.devFolder + '/assets/js/main.js', '//main.js');
+  this.write(this.devFolder + '/assets/css/main.css', '/* */');
+  this.write(this.devFolder + '/assets/less/main.less',
     '@import "../vendor/less-elements/elements.less";');
 
-  this.template('h5bp.html', this.devFolder + this.devFile);
+  this.template('h5bp.html', this.devFolder + "/" + this.devFile);
 };
 
 

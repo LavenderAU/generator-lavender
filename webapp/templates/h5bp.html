@@ -3,30 +3,28 @@
 <!--[if IE 7]>    <html class="lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>    <html class="lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class=""> <!--<![endif]-->
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">        
-        <!-- build:css assets/css/style.min.css -->
-        <link rel="stylesheet" href="devassets/vendor/normalize.css/normalize.css" />
-        <%= vendorStyleSheets %>
-        <link rel="stylesheet" href="devassets/css/main.css" />
-        <!-- endbuild -->
-    </head>
-    <body>
-        <!--[if lt IE 8]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
-        
-        <!-- build:js assets/js/vendor/vendor.min.js -->
-        <!-- bower:js -->        
-        <!-- endbower -->
-        <!-- endbuild -->
-        
-        <!-- build:js assets/js/script.min.js -->
-        <script src="devassets/js/main.js"></script>
-        <!-- endbuild -->
-    </body>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- build:css assets/css/style.min.css -->
+  <link rel="stylesheet" href="assets/vendor/normalize.css/normalize.css" />
+  <%= vendorStyleSheets %>
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <!-- endbuild -->
+</head>
+<body>
+  <!-- build:js assets/js/script.min.js -->    
+  <!-- cut and repaset from here -->
+  <!-- vendor scripts -->
+  <!-- bower:js -->        
+  <!-- endbower -->
+  <%= vendorScripts %>
+  <!-- and here because usemin is acting weird -->
+  <!-- myscripts -->
+  <script src="assets/js/main.js"></script>
+  <!-- endbuild -->
+</body>
 </html>

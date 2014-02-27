@@ -18,7 +18,7 @@ module.exports = function(grunt) {
     app: {
       src: '<%=devFolder%>',
       dist: '<%=buildFolder%>',
-      srcfile: '<%=devFile%>'      
+      srcfile: '<%=devFile%>'
     },
     watch: {
       options: {
@@ -26,26 +26,26 @@ module.exports = function(grunt) {
         livereload: LIVERELOAD_PORT
       },
       html: {
-        files: ['<%%= app.src %>*.html'],
+        files: ['<%%= app.src %>/*.html'],
         tasks: []
       },
       scripts: {
-        files: ['<%%= app.src %>**/*.js'],
+        files: ['<%%= app.src %>/**/*.js'],
         tasks: []
       },
       less: {
-        files: ['<%%= app.src %>**/*.less'],
+        files: ['<%%= app.src %>/**/*.less'],
         tasks: ['less:build'],
         options: {
           interrupt: true
         }
       },
       css: {
-        files: ['<%%= app.src %>**/*.css'],
+        files: ['<%%= app.src %>/**/*.css'],
         tasks: []
       },
       images: {
-        files: ['<%%= app.src %>**/*.jpg', '<%%= app.src %>**/*.png', '<%%= app.src %>**/*.gif'],
+        files: ['<%%= app.src %>/**/*.jpg', '<%%= app.src %>/**/*.png', '<%%= app.src %>/**/*.gif'],
         tasks: []
       }
     },
@@ -58,23 +58,23 @@ module.exports = function(grunt) {
       livereload: {
         options: {
           middleware: function(connect) {
-            return [lrSnippet, mountFolder(connect, 'src')];
+            return [lrSnippet, mountFolder(connect, '<%%= app.src  %>')];
           }
         }
       }
     },
     open: {
       server: {
-        path: 'http://localhost:<%%= connect.options.port %>/<%= devFile%>'
+        path: 'http://localhost:<%%= connect.options.port %>/<%= devFile %>'
       }
     },
     less: {
       build: {
         options: {
-          paths: ["<%%= app.src %>devassets/less"]
+          paths: ["<%%= app.src %>/assets/less"]
         },
         files: {
-          "<%%= app.src %>devassets/css/main.css": "<%%= app.src %>devassets/less/main.less"
+          "<%%= app.src %>/assets/css/main.css": "<%%= app.src %>/assets/less/main.less"
         }
       } <%= vendorGruntTasks %>
     },
@@ -84,7 +84,7 @@ module.exports = function(grunt) {
         root: <%= useminDevDest %> ,
         dest: <%= useminBuildDest %>
       },
-      html: '<%%= app.src %><%%= app.srcfile %>'
+      html: '<%%= app.src %>/<%%= app.srcfile %>'
     },
     usemin: {
       options: {
@@ -139,7 +139,7 @@ module.exports = function(grunt) {
     'bower-install': {
       app: {
         html: '<%%= app.src %>/<%%= app.srcfile %>',
-        ignorePath: '<%%= app.src %>'
+        ignorePath: '<%%= app.src %>/'
       }
     },
     copy: {
@@ -156,18 +156,26 @@ module.exports = function(grunt) {
             '{,*/}*.html',
             'styles/fonts/{,*/}*.*'
           ]
+        }, {
+          expand: true,
+          dot: true,
+          cwd: '<%%= app.src %>',
+          dest: '<%%= app.dist %>/',
+          src: 'assets/img/*'
         }]
       }
     },
-    rev: {
-      dist: {
-        files: {
-          src: [
-            '<%%= app.dist %>/assets/js/{,*/}*.js',
-            '<%%= app.dist %>/assets/css/{,*/}*.css',
-            '<%%= app.dist %>/assets/img/{,*/}*.{gif,jpeg,jpg,png,webp}'
-          ]
-        }
+    filerev: {
+      options: {
+        encoding: 'utf8',
+        algorithm: 'md5',
+        length: 6
+      },
+      files: {
+        src: [
+          '<%%= app.dist %>/assets/js/{,*/}*.js',
+          '<%%= app.dist %>/assets/css/{,*/}*.css'
+        ]
       }
     }
   });
@@ -175,15 +183,15 @@ module.exports = function(grunt) {
   grunt.registerTask('init', ['bower-install', 'less:bootstrap']);
   grunt.registerTask('server', ['less:build', 'connect', 'open', 'watch']);
   grunt.registerTask('build', [
-        'clean:dist',
-        'useminPrepare',                
-        'concat',
-        'cssmin',
-        'uglify',
-        'copy:dist',        
-        'rev',
-        'usemin',
-        'htmlmin',
-        'clean:build'
-    ]);
+    'clean:dist',
+    'useminPrepare',
+    'concat',
+    'cssmin',
+    'uglify',
+    'copy:dist',
+    'filerev',
+    'usemin',
+    'htmlmin',
+    'clean:build'
+  ]);
 };
