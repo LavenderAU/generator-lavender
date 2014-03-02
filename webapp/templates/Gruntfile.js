@@ -71,8 +71,11 @@ module.exports = function(grunt) {
     },
     less: {
       build: {
-        options: {
-          paths: ["<%%= app.src %>/assets/less"]
+        options: {          
+          compress: true,
+          strictImports: true,
+          syncImports: true,
+          report: 'min'
         },
         files: {
           "<%%= app.src %>/assets/css/main.css": "<%%= app.src %>/assets/less/main.less"

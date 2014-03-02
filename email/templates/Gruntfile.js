@@ -42,7 +42,7 @@ module.exports = function(grunt) {
   var stagingServer = "http://images.lav.net.au/<%=clientName%>/<%=projectName%>/",
     stagingPath = "//192.168.203.248/inetpub/wwwroot/images.lav.net.au/<%=clientName%>/<%=projectName%>/";
   grunt.initConfig({
-    pkg: grunt.file.readJSON('package.json'),
+    pkg: grunt.file.readJSON('package.json'),    
     watch: {
       options: {
         nospawn: true,
