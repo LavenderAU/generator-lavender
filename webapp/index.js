@@ -15,8 +15,10 @@ var WebappGenerator = module.exports = function WebappGenerator(args, options, c
     {id:"modernizr", name:"Modernizr"},
     {id:"raphael", name:"Raphael JS"},
     {id:"accounting", name:"accounting.js"},
-    {id:"jquery-ui", name:"Jquery UI"}
+    {id:"jquery-ui", name:"Jquery UI", dependencies: ["jqueryui-touch-punch"]}
   ];
+
+
 
   this.on('end', function() {
     var projectDep = [
@@ -29,6 +31,12 @@ var WebappGenerator = module.exports = function WebappGenerator(args, options, c
     while (i++ != ii) {
       if (this.selectedFeatures[i] != 'includeCore') {
         projectDep.push(this.selectedFeatures[i]);
+        if (this.selectedFeatures[i].dependencies && this.selectedFeatures[i].dependencies.length) { 
+          var j = -1, jj = this.selectedFeatures[i].dependencies.length - 1;
+          while (j ++ != jj) {
+            projectDep.push(this.selectedFeatures[i].dependencies[j]);
+          }
+        }
       }
     }
     
@@ -168,7 +176,7 @@ WebappGenerator.prototype.askFor = function askFor() {
     this.vendorGruntTasks = "";
     if (this.includeBootstrap) {
       this.vendorStyleSheets += styleTag("assets/vendor/bootstrap/dist/css/bootstrap.css");
-      this.vendorGruntTasks += ",\r\n\tbootstrap:{files:{\"" + this.devFolder + "/assets/css/vendor/bootstrap/dist/css/bootstrap.css\": \"" + this.devFolder + "/assets/vendor/bootstrap/less/bootstrap.less\"}}";
+      this.vendorGruntTasks += ",\r\n\tbootstrap:{files:{\"" + this.devFolder + "/assets/vendor/bootstrap/dist/css/bootstrap.css\": \"" + this.devFolder + "/assets/vendor/bootstrap/less/bootstrap.less\"}}";
     }
     if (this.includeJQUI) {
     	this.vendorStyleSheets += indent + styleTag("assets/vendor/jquery-ui/themes/base/jquery.ui.all.css");
