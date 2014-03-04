@@ -1,12 +1,12 @@
 (function ($) {
-    var Core = core.Core,
-        __super__ = Core.prototype;
+    var Module = core.delegates.Module,
+        __super__ = Module.prototype;
 
     function Main(opts) {
         if (opts && opts.__inheriting__) return;
-        Core.call(this, opts);
+        Module.call(this, opts);
     }
-    Main.inherits(Core);
+    Main.inherits(Module);
     var proto = Main.prototype;
 
     proto.dispose = function () {
@@ -18,7 +18,7 @@
         this.init();
     };
     proto.init = function(){
-        console.log("Start writing your stuff here");
+        console.log("Start writing your stuff here", this);
     };
 
     core.registerNamespace("window.Main");
