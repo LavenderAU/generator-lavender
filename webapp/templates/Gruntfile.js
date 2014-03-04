@@ -31,22 +31,20 @@ module.exports = function(grunt) {
         tasks: []
       },
       scripts: {
-        files: ['<%%= app.src %>/**/*.js'],
+        files: ['<%%= app.src %>/assets/js/**/*.js'],
         tasks: []
       },
       less: {
-        files: ['<%%= app.src %>/**/*.less'],
+        files: ['<%%= app.src %>/assets/less/**/*.less'],
         tasks: ['less:build'],
-        options: {
-          interrupt: true
-        }
+        options: {}
       },
       css: {
-        files: ['<%%= app.src %>/**/*.css'],
+        files: ['<%%= app.src %>/assets/css/**/*.css'],
         tasks: []
       },
       images: {
-        files: ['<%%= app.src %>/**/*.jpg', '<%%= app.src %>/**/*.png', '<%%= app.src %>/**/*.gif'],
+        files: ['<%%= app.src %>/assets/img/**/*.jpg', '<%%= app.src %>/assets/img/**/*.png', '<%%= app.src %>/assets/img/**/*.gif'],
         tasks: []
       }
     },
@@ -72,12 +70,15 @@ module.exports = function(grunt) {
     less: {
       build: {
         options: {
-          paths: ["<%%= app.src %>/assets/less"]
+          compress: true,
+          strictImports: true,
+          syncImports: true,
+          report: 'min'
         },
         files: {
           "<%%= app.src %>/assets/css/main.css": "<%%= app.src %>/assets/less/main.less"
         }
-      }<%= vendorGruntTasks %>
+      } <%= vendorGruntTasks %>
     },
 
     useminPrepare: {
@@ -183,13 +184,15 @@ module.exports = function(grunt) {
   grunt.registerTask('default', [
     'less:build']);
   grunt.registerTask('init', [
-    'bower-install', 
-    'less:bootstrap']);
+    'bower-install',
+    'less:bootstrap'
+  ]);
   grunt.registerTask('server', [
-    'less:build', 
-    'connect', 
-    'open', 
-    'watch']);
+    'less:build',
+    'connect',
+    'open',
+    'watch'
+  ]);
 
   grunt.registerTask('build', [
     'clean:dist',
