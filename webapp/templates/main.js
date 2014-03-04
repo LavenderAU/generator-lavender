@@ -15,10 +15,9 @@
     };
     proto.construct = function(opts){
         __super__.construct.call(this, opts);
-        this.init();
     };
-    proto.init = function(){
-        console.log("Start writing your stuff here", this);
+    proto.initialized = function(opts){
+        console.log("Start writing your stuff here");
     };
 
     core.registerNamespace("window.Main");
