@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "homepage": "https://github.com/LavenderAU/generator-lavender",
   "authors": [
-    "Vicente Jr Yuchitcho <chitchu@gmail.com>"
+    "Vicente Jr Yuchitcho <chitchu@gmail.com>",
+    "Donald Martinez <badongers@gmail.com>"
   ],
   "description": "Yeoman generator for Lavender web apps.",
   "license": "MIT",

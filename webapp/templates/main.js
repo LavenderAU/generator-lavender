@@ -1,12 +1,12 @@
 (function ($) {
-    var Core = core.Core,
-        __super__ = Core.prototype;
+    var Module = core.delegates.Module,
+        __super__ = Module.prototype;
 
     function Main(opts) {
         if (opts && opts.__inheriting__) return;
-        Core.call(this, opts);
+        Module.call(this, opts);
     }
-    Main.inherits(Core);
+    Main.inherits(Module);
     var proto = Main.prototype;
 
     proto.dispose = function () {
@@ -15,9 +15,8 @@
     };
     proto.construct = function(opts){
         __super__.construct.call(this, opts);
-        this.init();
     };
-    proto.init = function(){
+    proto.initialized = function(opts){
         console.log("Start writing your stuff here");
     };
 
