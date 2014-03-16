@@ -194,8 +194,7 @@ WebappGenerator.prototype.app = function app() {
     this.devFolder + '/assets/js',
     this.devFolder + '/assets/js',
     this.devFolder + '/assets/js/lib',
-    this.devFolder + '/assets/css',
-    this.devFolder + '/assets/css/vendor',
+    this.devFolder + '/assets/css',    
     this.devFolder + '/assets/img',
     this.devFolder + '/assets/vendor'
   ];

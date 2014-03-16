@@ -121,11 +121,8 @@ module.exports = function(grunt) {
     htmlmin: {
       dist: {
         options: {
-          collapseBooleanAttributes: true,
-          collapseWhitespace: true,
-          removeAttributeQuotes: true,
-          removeCommentsFromCDATA: true,
-          removeEmptyAttributes: true,
+          collapseBooleanAttributes: true,          
+          removeAttributeQuotes: true,          
           removeOptionalTags: true,
           removeRedundantAttributes: true,
           useShortDoctype: true
@@ -164,6 +161,12 @@ module.exports = function(grunt) {
           cwd: '<%%= app.src %>',
           dest: '<%%= app.dist %>/',
           src: 'assets/img/*'
+        }, {
+          expand: true,
+          dot: true,
+          cwd: '<%= app.src %>',
+          dest: '<%= app.dist %>/',
+          src: ['assets/css/**', '!assets/css/*.css']
         }]
       }
     },
