@@ -88,7 +88,7 @@ module.exports = function(grunt) {
         root: <%= useminDevDest %> ,
         dest: <%= useminBuildDest %>
       },
-      html: '<%%= app.src %>/<%%= app.srcfile %>'
+      html: '<%%= app.src %>/**/*.html'
     },
     usemin: {
       options: {
