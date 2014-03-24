@@ -8,9 +8,11 @@ var WebappGenerator = module.exports = function WebappGenerator(args, options, c
   yeoman.generators.Base.apply(this, arguments);
 
   this.vendorList = [
+    {id:'jquery', name:"Jquery v2"},    
+    {id:'jquery#1.10', name:"Jquery v1.10"},    
     {id:"greensock", name:"Greensock TweenMax"},
-    {id:"bootstrap", name:"Bootstrap"},
-    {id:"respond", name:"RespondJS"},
+    {id:"bootstrap", name:"Bootstrap", dependencies: ["respond"]},    
+    {id"respond", name:"RespondJS"},
     {id:"html5shiv", name:"HTML5Shiv"},
     {id:"modernizr", name:"Modernizr"},
     {id:"raphael", name:"Raphael JS"},
@@ -18,34 +20,41 @@ var WebappGenerator = module.exports = function WebappGenerator(args, options, c
     {id:"jquery-ui", name:"Jquery UI", dependencies: ["jqueryui-touch-punch"]}
   ];
 
+  function getLibDep (lib, vendorList) {    
+    var i = vendorList.length;
+    while (i--) {
+      if (vendorList[i].id == lib) {
+        return vendorList[i];
+      }
+    }
+    return null;
 
+  };
 
   this.on('end', function() {
-    var projectDep = [
-      'jquery',
+    var projectDep = [      
       'normalize.css',
       'less-elements'
-    ];    
-
+    ];
+    
     var i = -1, ii = this.selectedFeatures.length - 1;
+    
     while (i++ != ii) {
       if (this.selectedFeatures[i] != 'includeCore') {
         projectDep.push(this.selectedFeatures[i]);
-        if (this.selectedFeatures[i].dependencies && this.selectedFeatures[i].dependencies.length) { 
-          var j = -1, jj = this.selectedFeatures[i].dependencies.length - 1;
-          while (j ++ != jj) {
-            projectDep.push(this.selectedFeatures[i].dependencies[j]);
+        
+        /*
+        var libWithDep = getLibDep(this.selectedFeatures[i].id, this.vendorList);
+        if(libWithDep) {
+          var j = libWithDep.dependencies.length;
+          while (j--) {
+            projectDep.push(libWithDep.dependencies[j]);
           }
         }
+        */
+
       }
     }
-    
-    this.bowerInstall(projectDep, {
-      save: true,
-      callback: function () {
-        //console.log ("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-      }
-    });
 
     this.installDependencies({
       skipInstall: options['skip-install'],

@@ -14,6 +14,8 @@ module.exports = function(grunt) {
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
   var expressport = 9000;
   var mntfld = '<%=devFolder%>';
+  var target = grunt.option ('target');
+  
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     app: {
@@ -196,7 +198,6 @@ module.exports = function(grunt) {
     'open',
     'watch'
   ]);
-
   grunt.registerTask('build', [
     'clean:dist',
     'less:build',
