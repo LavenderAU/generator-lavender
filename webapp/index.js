@@ -12,7 +12,7 @@ var WebappGenerator = module.exports = function WebappGenerator(args, options, c
     {id:'jquery#1.10', name:"Jquery v1.10"},    
     {id:"greensock", name:"Greensock TweenMax"},
     {id:"bootstrap", name:"Bootstrap", dependencies: ["respond"]},    
-    {id"respond", name:"RespondJS"},
+    {id:"respond", name:"RespondJS"},
     {id:"html5shiv", name:"HTML5Shiv"},
     {id:"modernizr", name:"Modernizr"},
     {id:"raphael", name:"Raphael JS"},
