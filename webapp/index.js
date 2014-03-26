@@ -18,18 +18,7 @@ var WebappGenerator = module.exports = function WebappGenerator(args, options, c
     {id:"raphael", name:"Raphael JS"},
     {id:"accounting", name:"accounting.js"},
     {id:"jquery-ui", name:"Jquery UI", dependencies: ["jqueryui-touch-punch"]}
-  ];
-
-  function getLibDep (lib, vendorList) {    
-    var i = vendorList.length;
-    while (i--) {
-      if (vendorList[i].id == lib) {
-        return vendorList[i];
-      }
-    }
-    return null;
-
-  };
+  ];  
 
   this.on('end', function() {
     var projectDep = [      
@@ -55,6 +44,13 @@ var WebappGenerator = module.exports = function WebappGenerator(args, options, c
 
       }
     }
+
+    this.bowerInstall(projectDep, {
+      save: true,
+      callback: function () {
+        //console.log ("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+      }
+    });
 
     this.installDependencies({
       skipInstall: options['skip-install'],
