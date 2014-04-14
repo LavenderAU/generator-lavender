@@ -9,21 +9,18 @@
   <title></title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- build:css assets/css/style.min.css -->
+  <%= buildStyleName %>
   <link rel="stylesheet" href="assets/vendor/normalize.css/normalize.css" />
   <%= vendorStyleSheets %>
   <link rel="stylesheet" href="assets/css/main.css" />
   <!-- endbuild -->
 </head>
-<body>
-  <%= coreInitElement %>  
-  <!-- build:js assets/js/script.min.js -->    
-  
+<body>  
+  <%= buildScriptName %>    
   <!-- vendor scripts -->
   <!-- bower:js -->        
   <!-- endbower -->
-  <%= vendorScripts %>
-  
+  <%= vendorScripts %>  
   <!-- endbuild -->
 </body>
 </html>

@@ -95,7 +95,7 @@ module.exports = function(grunt) {
           removeComments: true
         },
         files: {
-          'index.min.html': 'index.min.html'
+          'index.min.html': 'index.html'
         }
       },
       pkg: {
@@ -143,20 +143,6 @@ module.exports = function(grunt) {
         dest: stagingPath
       }
     },
-    premailer: {
-      dist: {
-        options: {},
-        files: {
-          'index.min.html': ['index.html']
-        }
-      },
-      pkg: {
-        options: {},
-        files: {
-          'index.pkg.html': ['index.html']
-        }
-      }
-    },
     replace: {
       dist: {
         src: ['index.min.html'],
@@ -168,10 +154,10 @@ module.exports = function(grunt) {
       }
     }
   });
-  grunt.registerTask('build', ['premailer:dist', 'htmlmin:dist', 'replace']);
-  grunt.registerTask('deploy', ['premailer:dist', 'htmlmin:dist', 'replace', 'copy', 'open:deploy']);
-  grunt.registerTask('package', ['premailer', 'htmlmin:pkg']);
+  grunt.registerTask('build', ['htmlmin:dist', 'replace']);
+  grunt.registerTask('deploy', ['htmlmin:dist', 'replace', 'copy', 'open:deploy']);
+  grunt.registerTask('package', ['htmlmin:pkg']);
   grunt.registerTask('dev', ['connect', 'open:server', 'watch']);
-  grunt.registerTask('litmus', ['premailer:dist', 'htmlmin:dist', 'replace', 'litmus:account1', 'litmus:account2']);
-  grunt.registerTask('default', ['premailer:dist', 'htmlmin:dist', 'replace', 'copy', 'litmus:account1', 'litmus:account2']);
+  grunt.registerTask('litmus', ['htmlmin:dist', 'replace', 'litmus:account1', 'litmus:account2']);
+  grunt.registerTask('default', ['htmlmin:dist', 'replace', 'copy', 'litmus:account1', 'litmus:account2']);
 }

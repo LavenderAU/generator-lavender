@@ -119,24 +119,7 @@ module.exports = function(grunt) {
       options: {
         report: 'min'
       }
-    },
-    htmlmin: {
-      dist: {
-        options: {
-          collapseBooleanAttributes: true,          
-          removeAttributeQuotes: true,          
-          removeOptionalTags: true,
-          removeRedundantAttributes: true,
-          useShortDoctype: true
-        },
-        files: [{
-          expand: true,
-          cwd: '<%%= app.dist %>',
-          src: '{,*/}*.html',
-          dest: '<%%= app.dist %>'
-        }]
-      }
-    },
+    },    
     'bower-install': {
       app: {
         html: '<%%= app.src %>/<%%= app.srcfile %>',
@@ -189,8 +172,7 @@ module.exports = function(grunt) {
   grunt.registerTask('default', [
     'less:build']);
   grunt.registerTask('init', [
-    'bower-install',
-    'less:bootstrap'
+    <%= gruntInit %>
   ]);
   grunt.registerTask('server', [
     'less:build',
@@ -207,8 +189,7 @@ module.exports = function(grunt) {
     'uglify',
     'copy:dist',
     'filerev',
-    'usemin',
-    'htmlmin',
+    'usemin',    
     'clean:build'
   ]);
 };

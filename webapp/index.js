@@ -8,6 +8,7 @@ var WebappGenerator = module.exports = function WebappGenerator(args, options, c
   yeoman.generators.Base.apply(this, arguments);
 
   this.vendorList = [
+    {id:'core-js', name:'Core JS'},
     {id:'jquery', name:"Jquery v2"},    
     {id:'jquery#1.10', name:"Jquery v1.10"},    
     {id:"greensock", name:"Greensock TweenMax"},
@@ -98,11 +99,13 @@ WebappGenerator.prototype.askFor = function askFor() {
   var cb = this.async();
 
   var i = -1, ii = this.vendorList.length - 1, 
-    choicesList = [{
+    /*choicesList = [{
       name: 'Lavender Core',
       value: 'includeCore',
       checked: false
-    }];
+    }];*/
+
+  choicesList = [];
 
   while (i++ != ii) {
     choicesList.push({
@@ -137,9 +140,8 @@ WebappGenerator.prototype.askFor = function askFor() {
 
     function hasFeature(feat) {
       return features.indexOf(feat) !== -1;
-    }    
+    }     
     
-    this.includeCore = hasFeature('includeCore');
     //doing this for css
     this.includeBootstrap = hasFeature('bootstrap');
     this.includeJQUI = hasFeature('jquery-ui');
@@ -165,23 +167,17 @@ WebappGenerator.prototype.askFor = function askFor() {
     var indent = "\r\n\t\t";
     
     this.vendorScripts = indent;    
-
-    if (this.includeCore) {
-      this.vendorScripts = scriptTag("assets/js/lib/lavcore/core.src.js");
-      this.vendorScripts += indent + "<!-- Place custom scripts here -->";
-      this.vendorScripts += "\r\n";
-      this.vendorScripts += indent + "<!-- -->";
-      this.vendorScripts += indent + scriptTag("assets/js/main.js");
-      this.vendorScripts += indent + "<!-- Always include app.js last -->";
-      this.vendorScripts += indent + scriptTag("assets/js/app.js");
-    } else {
-      this.vendorScripts = indent + scriptTag("assets/js/main.js");
-    }
+    this.vendorScripts = indent + scriptTag("assets/js/main.js");
+    
     this.vendorStyleSheets = "";
     this.vendorGruntTasks = "";
+
+    this.gruntInit = "'bower-install'";    
+
     if (this.includeBootstrap) {
       this.vendorStyleSheets += styleTag("assets/vendor/bootstrap/dist/css/bootstrap.css");
       this.vendorGruntTasks += ",\r\n\tbootstrap:{files:{\"" + this.devFolder + "/assets/vendor/bootstrap/dist/css/bootstrap.css\": \"" + this.devFolder + "/assets/vendor/bootstrap/less/bootstrap.less\"}}";
+      this.gruntInit += ", 'less:bootstrap'";
     }
     if (this.includeJQUI) {
     	this.vendorStyleSheets += indent + styleTag("assets/vendor/jquery-ui/themes/base/jquery.ui.all.css");
@@ -215,30 +211,13 @@ WebappGenerator.prototype.app = function app() {
 };
 
 WebappGenerator.prototype.projectfiles = function projectfiles() {
-  this.coreInitElement = "";
-  if (this.includeCore) {
-    var cb = this.async();
-    console.log(chalk.bold.green("\n*** *** *** *** *** *** *** *** *** *** *** *** ***\n\nDownloading Lavender Core.\n\n*** *** *** *** *** *** *** *** *** *** *** *** ***"));
-    var http = require('http');
-    var _this = this;
-    var parts = [];
-    http.get('http://lav.net.au/cdn/core.src.js', function(res) {
-      res.on("data", function(chunk) {        
-        parts.push(chunk);        
-      }).on('end', function() {
-        _this.write(_this.devFolder + '/assets/js/lib/lavcore/core.src.js', parts.join(''));        
-        cb();
-      });
-    }).on('error', function(e) {
-      console.log("Error: " + e.message);
-    });
+  
+  this.write(this.devFolder + '/assets/js/main.js', '//main.js');
 
-    this.coreInitElement = '<div data-root="window.Main">\r\n\t</div>';
-    this.template ('app.js', this.devFolder + '/assets/js/app.js');
-    this.template ('main.js', this.devFolder + '/assets/js/main.js');
-  } else {
-    this.write(this.devFolder + '/assets/js/main.js', '//main.js');
-  }
+  var buildName = this.devFile.substr (0, this.devFile.lastIndexOf('.')) || this.devFile;
+  
+  this.buildScriptName = "<!-- build:js assets/js/"+buildName+".script.min.js -->";
+  this.buildStyleName = "<!-- build:css assets/css/"+buildName+".style.min.css -->";
 
   this.copy('bowerrc', '.bowerrc');
   
