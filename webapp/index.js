@@ -145,7 +145,7 @@ WebappGenerator.prototype.askFor = function askFor() {
     //doing this for css
     this.includeBootstrap = hasFeature('bootstrap');
     this.includeJQUI = hasFeature('jquery-ui');
-
+    this.isCoreApp = hasFeature("core-js");
     this.devFile = answers.devFile;
     
     if (answers.devFolder == ".") {
@@ -173,7 +173,9 @@ WebappGenerator.prototype.askFor = function askFor() {
     this.vendorGruntTasks = "";
 
     this.gruntInit = "'bower-install'";    
-
+    if(this.isCoreApp){
+        this["core-app"] = "core-app='Main'"
+    }
     if (this.includeBootstrap) {
       this.vendorStyleSheets += styleTag("assets/vendor/bootstrap/dist/css/bootstrap.css");
       this.vendorGruntTasks += ",\r\n\tbootstrap:{files:{\"" + this.devFolder + "/assets/vendor/bootstrap/dist/css/bootstrap.css\": \"" + this.devFolder + "/assets/vendor/bootstrap/less/bootstrap.less\"}}";

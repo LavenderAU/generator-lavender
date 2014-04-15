@@ -1,4 +1,4 @@
-(function ($) {
+(function () {
     var Module = core.delegates.Module,
         __super__ = Module.prototype;
 
@@ -20,7 +20,6 @@
         console.log("Start writing your stuff here");
     };
 
-    core.registerNamespace("window.Main");
-    window.Main = Main;
+    core.registerNamespace("window.Main", Main);
 
-})(core.selector);
+})();
