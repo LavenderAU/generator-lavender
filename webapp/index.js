@@ -214,7 +214,7 @@ WebappGenerator.prototype.app = function app() {
 
 WebappGenerator.prototype.projectfiles = function projectfiles() {
   
-  this.write(this.devFolder + '/assets/js/main.js', '//main.js');
+  this.write(this.devFolder + '/assets/js/main.js', this.readFileAsString(path.join(__dirname, 'templates/main.js'));
 
   var buildName = this.devFile.substr (0, this.devFile.lastIndexOf('.')) || this.devFile;
   
