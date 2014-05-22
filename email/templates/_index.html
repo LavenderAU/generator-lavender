@@ -51,13 +51,12 @@
       body[yahoo] a[href^="tel"], body[yahoo] a[href^="sms"] {
         text-decoration: none;
         color: blue; /* or whatever your want */
-        pointer-events: none;
         cursor: default;
       }
       body[yahoo] .mobile_link a[href^="tel"], body[yahoo] .mobile_link a[href^="sms"] {
         text-decoration: default;
         color: orange !important;
-        pointer-events: auto;
+        pointer-events: auto !important;
         cursor: default;
       }
     }
