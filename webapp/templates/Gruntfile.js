@@ -145,13 +145,13 @@ module.exports = function(grunt) {
           dot: true,
           cwd: '<%%= app.src %>',
           dest: '<%%= app.dist %>/',
-          src: 'assets/img/*'
+          src: 'assets/img/{,*/}*.*'
         }, {
           expand: true,
           dot: true,
-          cwd: '<%= app.src %>',
-          dest: '<%= app.dist %>/',
-          src: ['assets/css/**', '!assets/css/*.css']
+          cwd: '<%%= app.src %>',
+          dest: '<%%= app.dist %>/',
+          src: ['assets/css/{,*/}*.*', '!assets/css/*.css']
         }]
       }
     },
