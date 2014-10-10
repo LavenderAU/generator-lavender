@@ -74,6 +74,7 @@ var WebappGenerator = module.exports = function WebappGenerator(args, options, c
       save: true,
       callback: function() {
         //console.log ("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        this.spawnCommand('grunt', ['init']);
       }
     });
 
@@ -81,7 +82,6 @@ var WebappGenerator = module.exports = function WebappGenerator(args, options, c
       skipInstall: options['skip-install'],
       callback: function() {
         console.log(chalk.bold.green("\n*** *** *** *** *** *** *** *** *** *** *** *** ***\n\nAll done. Compiling vendor specific stylesheets.\n\n*** *** *** *** *** *** *** *** *** *** *** *** ***"));
-        this.spawnCommand('grunt', ['init']);
       }.bind(this)
     });
 
