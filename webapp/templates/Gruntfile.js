@@ -137,12 +137,12 @@ module.exports = function(grunt) {
         padding: 2
       }
     },
-    // bowerInstall: {
-    //   app: {
-    //     html: '<%%= app.src %>/<%%= app.srcfile %>',
-    //     ignorePath: '<%%= app.src %>/'
-    //   }
-    // },
+    bowerInstall: {
+      app: {
+        html: '<%%= app.src %>/<%%= app.srcfile %>',
+        ignorePath: '<%%= app.src %>/'
+      }
+    },
     copy: {
       dist: {
         files: [{
