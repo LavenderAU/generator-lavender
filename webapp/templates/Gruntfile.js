@@ -137,7 +137,7 @@ module.exports = function(grunt) {
         padding: 2
       }
     },
-    'bower-install': {
+    bowerInstall: {
       app: {
         html: '<%%= app.src %>/<%%= app.srcfile %>',
         ignorePath: '<%%= app.src %>/'
