@@ -14,8 +14,8 @@ module.exports = function(grunt) {
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
   var expressport = 9000;
   var mntfld = '<%=devFolder%>';
-  var target = grunt.option ('target');
-  
+  var target = grunt.option('target');
+
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     app: {
@@ -27,6 +27,10 @@ module.exports = function(grunt) {
       options: {
         nospawn: true,
         livereload: LIVERELOAD_PORT
+      },
+      bower: {
+        files: ['bower.json'],
+        tasks: ['wiredep']
       },
       html: {
         files: ['<%%= app.src %>/*.html'],
@@ -44,6 +48,10 @@ module.exports = function(grunt) {
       css: {
         files: ['<%%= app.src %>/assets/css/**/*.css'],
         tasks: []
+      },
+      sprite: {
+        files: ['<%%= app.src %>/assets/img/sprite-src/*.*'],
+        task: ['sprite', 'less']
       },
       images: {
         files: ['<%%= app.src %>/assets/img/**/*.jpg', '<%%= app.src %>/assets/img/**/*.png', '<%%= app.src %>/assets/img/**/*.gif'],
@@ -119,7 +127,16 @@ module.exports = function(grunt) {
       options: {
         report: 'min'
       }
-    },    
+    },
+    sprite: {
+      all: {
+        src: ['<%%= app.src %>/assets/img/sprite-src/*.png'],
+        destImg: '<%%= app.src %>/assets/img/spritesheet.png',
+        destCSS: '<%%= app.src %>/assets/less/spritesheet.less',
+        algorithm: 'binary-tree',
+        padding: 2
+      }
+    },
     'bower-install': {
       app: {
         html: '<%%= app.src %>/<%%= app.srcfile %>',
@@ -155,6 +172,12 @@ module.exports = function(grunt) {
         }]
       }
     },
+    wiredep: {
+      app: {
+        ignorePath: /^<%= app.src %>\/|\.\.\//,
+        src: ['<%%= app.src %>/<%%= app.srcfile %>']
+      }
+    },
     filerev: {
       options: {
         encoding: 'utf8',
@@ -170,10 +193,9 @@ module.exports = function(grunt) {
     }
   });
   grunt.registerTask('default', [
-    'less:build']);
-  grunt.registerTask('init', [
-    <%= gruntInit %>
+    'less:build'
   ]);
+  grunt.registerTask('init', [ <%= gruntInit %> ]);
   grunt.registerTask('server', [
     'less:build',
     'connect',
@@ -189,7 +211,7 @@ module.exports = function(grunt) {
     'uglify',
     'copy:dist',
     'filerev',
-    'usemin',    
+    'usemin',
     'clean:build'
   ]);
 };
