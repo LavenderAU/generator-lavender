@@ -45,29 +45,10 @@ var WebappGenerator = module.exports = function WebappGenerator(args, options, c
   }];
 
   this.on('end', function() {
-    var projectDep = [
-      'normalize.css',
-      'less-elements'
-    ];
+    var projectDep = [];
 
-    var i = -1,
-      ii = this.selectedFeatures.length - 1;
-
-    while (i++ != ii) {
-      if (this.selectedFeatures[i] != 'includeCore') {
-        projectDep.push(this.selectedFeatures[i]);
-
-        /*
-        var libWithDep = getLibDep(this.selectedFeatures[i].id, this.vendorList);
-        if(libWithDep) {
-          var j = libWithDep.dependencies.length;
-          while (j--) {
-            projectDep.push(libWithDep.dependencies[j]);
-          }
-        }
-        */
-
-      }
+    for (var i = 0, len = this.selectedFeatures.length; i < len; i += 1) {
+      projectDep.push(this.selectedFeatures[i]);
     }
 
     this.bowerInstall(projectDep, {
@@ -75,13 +56,14 @@ var WebappGenerator = module.exports = function WebappGenerator(args, options, c
       callback: function() {
         //console.log ("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         this.spawnCommand('grunt', ['init']);
-      }
+      }.bind(this)
     });
 
     this.installDependencies({
       skipInstall: options['skip-install'],
       callback: function() {
         console.log(chalk.bold.green("\n*** *** *** *** *** *** *** *** *** *** *** *** ***\n\nAll done. Compiling vendor specific stylesheets.\n\n*** *** *** *** *** *** *** *** *** *** *** *** ***"));
+        this.spawnCommand('grunt', ['init']);
       }.bind(this)
     });
 
