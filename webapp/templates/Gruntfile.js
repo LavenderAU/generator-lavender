@@ -139,7 +139,10 @@ module.exports = function(grunt) {
     },
     bowerInstall: {
       app: {
-        html: '<%%= app.src %>/<%%= app.srcfile %>',
+        src: [
+          '<%%= app.src %>/<%%= app.srcfile %>',
+          '<%%= app.src %>/assets/less/main.less'
+        ],
         ignorePath: '<%%= app.src %>/'
       }
     },
