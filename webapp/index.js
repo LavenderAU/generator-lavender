@@ -197,7 +197,7 @@ WebappGenerator.prototype.askFor = function askFor() {
     this.vendorStyleSheets = "";
     this.vendorGruntTasks = "";
 
-    this.gruntInit = "bowerInstall";
+    this.gruntInit = "bower";
     if (this.isCoreApp) {
       this["coreapp"] = "core-app='Main'"
     }
