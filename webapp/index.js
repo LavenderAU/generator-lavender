@@ -55,8 +55,7 @@ var WebappGenerator = module.exports = function WebappGenerator(args, options, c
       save: true,
       callback: function() {
         //console.log ("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        this.spawnCommand('grunt', ['init']);
-      }.bind(this)
+      }
     });
 
     this.installDependencies({
