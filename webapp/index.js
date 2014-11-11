@@ -205,10 +205,16 @@ WebappGenerator.prototype.projectfiles = function projectfiles() {
     this.write(this.devFolder + '/assets/js/main.js', "");
   }
   var buildName = this.devFile.substr (0, this.devFile.lastIndexOf('.')) || this.devFile;
-  this.buildScriptName = "<!-- build:js assets/js/"+buildName+".script.min.js -->";
-  this.buildStyleName = "<!-- build:css assets/css/"+buildName+".style.min.css -->";
+
+  this.buildScriptName = buildName+".script.min.js";
+  this.buildStyleName = buildName+".style.min.css";
+
   this.copy('bowerrc', '.bowerrc');
   this.write(this.devFolder + '/assets/css/main.css', '/* */');
   this.write(this.devFolder + '/assets/less/main.less', this.readFileAsString(path.join(__dirname, 'templates/main.less')));
+
+  this.write(this.devFolder+'/partials/style-includes.html', this.readFileAsString(path.join(__dirname, 'templates/style-includes.html')));
+  this.template('script-includes.html', this.devFolder+'/partials/script-includes.html');
+
   this.template('h5bp.html', this.devFolder + "/" + this.devFile);
 };

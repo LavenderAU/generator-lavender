@@ -9,17 +9,9 @@
   <title></title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <%= buildStyleName %>
-  <!-- bower:css -->
-  <!-- endbower -->
-  <link rel="stylesheet" href="assets/css/main.css" />
-  <!-- endbuild -->
+  @@include('partials/style-includes.html',{"buildName":"<%= buildStyleName %>"})
 </head>
 <body>
-  <%= buildScriptName %>
-  <!-- bower:js -->
-  <!-- endbower -->  
-  <script src="assets/js/main.js"></script>
-  <!-- endbuild -->
+  @@include('partials/script-includes.html', {"buildName": "<%= buildScriptName %>"})
 </body>
 </html>

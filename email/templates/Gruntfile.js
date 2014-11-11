@@ -42,7 +42,7 @@ module.exports = function(grunt) {
   var stagingServer = "http://images.lav.net.au/<%=clientName%>/<%=projectName%>/",
     stagingPath = "//192.168.203.248/inetpub/wwwroot/images.lav.net.au/<%=clientName%>/<%=projectName%>/";
   grunt.initConfig({
-    pkg: grunt.file.readJSON('package.json'),    
+    pkg: grunt.file.readJSON('package.json'),
     watch: {
       options: {
         nospawn: true,
@@ -50,7 +50,7 @@ module.exports = function(grunt) {
       },
       html: {
         files: ['*.html'],
-        tasks: ['htmlmin']
+        tasks: []
       },
       images: {
         files: ['**/*.jpg', '**/*.gif'],
@@ -86,13 +86,10 @@ module.exports = function(grunt) {
     htmlmin: {
       dist: {
         options: {
-          collapseWhitespace: true,
-          removeAttributeQuotes: true,
           removeRedundantAttributes: true,
           collapseBooleanAttributes: true,
           removeEmptyAttributes: true,
-          removeOptionalTags: true,
-          removeComments: true
+          removeOptionalTags: true
         },
         files: {
           'index.min.html': 'index.html'
@@ -100,13 +97,10 @@ module.exports = function(grunt) {
       },
       pkg: {
         options: {
-          collapseWhitespace: true,
-          removeAttributeQuotes: true,
           removeRedundantAttributes: true,
           collapseBooleanAttributes: true,
           removeEmptyAttributes: true,
-          removeOptionalTags: true,
-          removeComments: true
+          removeOptionalTags: true
         },
         files: {
           'index.pkg.html': 'index.pkg.html'
@@ -158,6 +152,6 @@ module.exports = function(grunt) {
   grunt.registerTask('deploy', ['htmlmin:dist', 'replace', 'copy', 'open:deploy']);
   grunt.registerTask('package', ['htmlmin:pkg']);
   grunt.registerTask('dev', ['connect', 'open:server', 'watch']);
-  grunt.registerTask('litmus', ['htmlmin:dist', 'replace', 'litmus:account1', 'litmus:account2']);
+  grunt.registerTask('litmuser', ['htmlmin:dist', 'replace', 'litmus:account1', 'litmus:account2']);
   grunt.registerTask('default', ['htmlmin:dist', 'replace', 'copy', 'litmus:account1', 'litmus:account2']);
 }
