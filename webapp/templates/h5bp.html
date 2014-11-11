@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]> <html class="lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>    <html class="lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>    <html class="lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class=""> <!--<![endif]-->
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,17 +10,16 @@
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <%= buildStyleName %>
-  <link rel="stylesheet" href="assets/vendor/normalize.css/normalize.css" />
-  <%= vendorStyleSheets %>
+  <!-- bower:css -->
+  <!-- endbower -->
   <link rel="stylesheet" href="assets/css/main.css" />
   <!-- endbuild -->
 </head>
-<body <%= coreapp %>>
-  <%= buildScriptName %>    
-  <!-- vendor scripts -->
-  <!-- bower:js -->        
-  <!-- endbower -->
-  <%= vendorScripts %>  
+<body>
+  <%= buildScriptName %>
+  <!-- bower:js -->
+  <!-- endbower -->  
+  <script src="assets/js/main.js"></script>
   <!-- endbuild -->
 </body>
 </html>

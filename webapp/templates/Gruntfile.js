@@ -15,7 +15,7 @@ module.exports = function(grunt) {
   var expressport = 9000;
   var mntfld = '<%=devFolder%>';
   var target = grunt.option ('target');
-  
+
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     app: {
@@ -30,7 +30,7 @@ module.exports = function(grunt) {
       },
       html: {
         files: ['<%%= app.src %>/*.html'],
-        tasks: []
+        tasks: ['wiredep']
       },
       scripts: {
         files: ['<%%= app.src %>/assets/js/**/*.js'],
@@ -119,12 +119,6 @@ module.exports = function(grunt) {
       options: {
         report: 'min'
       }
-    },    
-    'bower-install': {
-      app: {
-        html: '<%%= app.src %>/<%%= app.srcfile %>',
-        ignorePath: '<%%= app.src %>/'
-      }
     },
     copy: {
       dist: {
@@ -152,7 +146,13 @@ module.exports = function(grunt) {
           cwd: '<%%= app.src %>',
           dest: '<%%= app.dist %>/',
           src: ['assets/css/{,*/}*.*', '!assets/css/*.css']
-        }]
+        }, {
+    		  flatten:true,
+    		  expand: true,
+    		  cwd: '<%= app.src %>',
+    		  dest: '<%= app.dist %>/assets/fonts',
+    		  src: ['assets/**/*.eot', 'assets/**/*.svg', 'assets/**/*.ttf', 'assets/**/*.woff']
+    		}]
       }
     },
     filerev: {
@@ -167,12 +167,20 @@ module.exports = function(grunt) {
           '<%%= app.dist %>/assets/css/{,*/}*.css'
         ]
       }
+    },
+    wiredep: {
+      task: {
+        src: [
+          '<%%= app.src %>/*.html',
+          '<%%= app.src %>/assets/less/*.less'
+        ]
+      }
     }
   });
   grunt.registerTask('default', [
     'less:build']);
   grunt.registerTask('init', [
-    <%= gruntInit %>
+    'wiredep'
   ]);
   grunt.registerTask('server', [
     'less:build',
@@ -182,6 +190,7 @@ module.exports = function(grunt) {
   ]);
   grunt.registerTask('build', [
     'clean:dist',
+    'wiredep',
     'less:build',
     'useminPrepare',
     'concat',
@@ -189,7 +198,7 @@ module.exports = function(grunt) {
     'uglify',
     'copy:dist',
     'filerev',
-    'usemin',    
+    'usemin',
     'clean:build'
   ]);
 };
