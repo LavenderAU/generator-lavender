@@ -1,96 +1,212 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <meta content="telephone=no" name="format-detection">
     <title>Your Message Subject or Title</title>
     <style type="text/css">
-    #outlook a {
-      padding:0;
-    }
-    body{
-      width:100% !important; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; margin:0; padding:0;
-    }
-    .ExternalClass {
-      width:100%;
-    }
-    *{
-      line-height:100%;
-    }
-    .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {
-      line-height: 100%;
-    }
-    #backgroundTable {
-      margin:0; padding:0; width:100% !important; line-height: 100% !important;
-    }
-    img {
-      outline:none; text-decoration:none; -ms-interpolation-mode: bicubic;
-    }
-    a img {
-      border:none;
-    }
-    .image_fix {
-      display:block;
-    }
-    p {
-      margin: 1em 0;
-    }
-    table td {
-      border-collapse: collapse;
-    }
-    table {
-      border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;
-    }
-    /***************************************************
-    ****************************************************
-    MOBILE TARGETING
-    ****************************************************
-    ***************************************************/
-    @media only screen and (max-device-width: 480px) {
-      /* Part one of controlling phone number linking for mobile. */
-      body[yahoo] a[href^="tel"], body[yahoo] a[href^="sms"] {
+      @-ms-viewport {
+        width: device-width;
+      }
+      
+      #outlook a {
+        padding: 0;
+      }
+      
+      body {
+        width: 100% !important;
+        -webkit-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      
+      .ExternalClass {
+        width: 100%;
+      }
+      
+      * {
+        line-height: 100%;
+      }
+      
+      .ExternalClass,
+      .ExternalClass p,
+      .ExternalClass span,
+      .ExternalClass font,
+      .ExternalClass td,
+      .ExternalClass div {
+        line-height: 100%;
+      }
+      
+      #backgroundTable {
+        margin: 0;
+        padding: 0;
+        width: 100% !important;
+        line-height: 100% !important;
+      }
+      
+      img {
+        outline: none;
         text-decoration: none;
-        color: blue; /* or whatever your want */
-        cursor: default;
+        -ms-interpolation-mode: bicubic;
       }
-      body[yahoo] .mobile_link a[href^="tel"], body[yahoo] .mobile_link a[href^="sms"] {
-        text-decoration: default;
-        color: orange !important;
-        pointer-events: auto !important;
-        cursor: default;
+      
+      a img {
+        border: none;
       }
-    }
-    /* More Specific Targeting */
-    @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
-      /* You guessed it, ipad (tablets, smaller screens, etc) */
-      /* repeating for the ipad */
-      body[yahoo] a[href^="tel"], body[yahoo] a[href^="sms"] {
-        text-decoration: none;
-        color: blue; /* or whatever your want */
-        pointer-events: none;
-        cursor: default;
+      
+      .image_fix {
+        display: block;
       }
-      body[yahoo] .mobile_link a[href^="tel"], body[yahoo] .mobile_link a[href^="sms"] {
-        text-decoration: default;
-        color: orange !important;
-        pointer-events: auto;
-        cursor: default;
+      
+      p {
+        margin: 1em 0;
       }
-    }
-    @media only screen and (-webkit-min-device-pixel-ratio: 2) {
-    /* Put your iPhone 4g styles in here */
-    }
-    /* Android targeting */
-    @media only screen and (-webkit-device-pixel-ratio:.75){
-    /* Put CSS for low density (ldpi) Android layouts in here */
-    }
-    @media only screen and (-webkit-device-pixel-ratio:1){
-    /* Put CSS for medium density (mdpi) Android layouts in here */
-    }
-    @media only screen and (-webkit-device-pixel-ratio:1.5){
-    /* Put CSS for high density (hdpi) Android layouts in here */
-    }
-    /* end Android targeting */
+      
+      table td {
+        border-collapse: collapse;
+      }
+      
+      table {
+        border-collapse: collapse;
+        mso-table-lspace: 0pt;
+        mso-table-rspace: 0pt;
+      }
+      /***************************************************
+      ****************************************************
+      MOBILE TARGETING
+      ****************************************************
+      ***************************************************/
+      
+      @media only screen and (max-device-width: 480px) {
+        /* Part one of controlling phone number linking for mobile. */
+        
+        body[yahoo] a[href^="tel"],
+        body[yahoo] a[href^="sms"] {
+          text-decoration: none;
+          color: blue;
+          /* or whatever your want */
+          
+          cursor: default;
+        }
+        body[yahoo] .mobile_link a[href^="tel"],
+        body[yahoo] .mobile_link a[href^="sms"] {
+          text-decoration: default;
+          color: orange !important;
+          pointer-events: auto !important;
+          cursor: default;
+        }
+        body[yahoo] .container {
+          padding-left: 25px;
+          padding-right: 25px;
+          background-color:#fdf5e2!important;
+        }
+        body[yahoo] table {
+          width: 100%;
+        }
+        body[yahoo] table td.full-width {
+          display: block!important;
+          width: 100%!important;
+        }
+        body[yahoo] .mb-15-xs {
+          margin-bottom: 15px;
+        }
+        body[yahoo] .mt-15-xs {
+          margin-top: 15px;
+        }
+        body[yahoo] .mb-25-xs {
+          margin-bottom: 25px;
+        }
+        body[yahoo] .mt-25-xs {
+          margin-top: 25px;
+        }
+        body[yahoo] .mt-35-xs {
+          margin-top: 35px;
+        }
+        body[yahoo] .hidden-xs {
+          display: none!important;
+        }
+        body[yahoo] span.plr-65-xs {
+          display: block;
+          padding-left: 65px;
+          padding-right: 65px;
+        }
+        body[yahoo] .visible-xs {
+          display: block !important;        
+          max-height: none !important;
+          line-height: 1.5 !important;
+        }
+        body[yahoo] img.hr {
+          width: 100%!important;
+        }
+        body[yahoo] .center-xs {
+          text-align: center!important;
+        }
+        body[yahoo] .xs-25-plr {
+          padding-left: 25px;
+          padding-right: 25px;
+        }
+        body[yahoo] .mobile-unsub {
+          display: block;
+          width: 140px;
+        }
+        body[yahoo] .visible-xs.inline {
+          display: inline-block!important;
+        }
+        body[yahoo] .xs-20-mt {
+          margin-top:20px!important; 
+        }
+      }
+      
+      .visible-xs {
+        display: none;
+      }
+      
+      .hidden-xs {}
+      /* More Specific Targeting */
+      
+      @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+        /* You guessed it, ipad (tablets, smaller screens, etc) */
+        /* repeating for the ipad */
+        
+        body[yahoo] a[href^="tel"],
+        body[yahoo] a[href^="sms"] {
+          text-decoration: none;
+          color: blue;
+          /* or whatever your want */
+          
+          pointer-events: none;
+          cursor: default;
+        }
+        body[yahoo] .mobile_link a[href^="tel"],
+        body[yahoo] .mobile_link a[href^="sms"] {
+          text-decoration: default;
+          color: orange !important;
+          pointer-events: auto;
+          cursor: default;
+        }
+      }
+      
+      @media only screen and (-webkit-min-device-pixel-ratio: 2) {
+        /* Put your iPhone 4g styles in here */
+      }
+      /* Android targeting */
+      
+      @media only screen and (-webkit-device-pixel-ratio: .75) {
+        /* Put CSS for low density (ldpi) Android layouts in here */
+      }
+      
+      @media only screen and (-webkit-device-pixel-ratio: 1) {
+        /* Put CSS for medium density (mdpi) Android layouts in here */
+      }
+      
+      @media only screen and (-webkit-device-pixel-ratio: 1.5) {
+        /* Put CSS for high density (hdpi) Android layouts in here */
+      }
+      /* end Android targeting */
     </style>
     <!-- Targeting Windows Mobile -->
     <!--[if IEMobile 7]>
@@ -112,8 +228,8 @@
   <body yahoo="fix">
     <table cellpadding="0" cellspacing="0" border="0" id="backgroundTable" width="100%">
       <tr>
-        <td valign="top">
-          <table cellpadding="0" cellspacing="0" border="0" align="center" style="min-width:600px;">
+        <td valign="top" class="container">
+          <table cellpadding="0" cellspacing="0" border="0" align="center">
             <tr>
               <td width="600" valign="top"></td>
             </tr>

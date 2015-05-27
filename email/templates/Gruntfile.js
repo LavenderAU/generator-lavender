@@ -11,8 +11,8 @@ var mountFolder = function(connect, dir) {
 
 module.exports = function(grunt) {
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
-  var emailClients = [
-    'notes7',
+  var emailClients = [    
+    'appmail8',
     'notes8',
     'notes85',
     'ol2000',
@@ -21,12 +21,14 @@ module.exports = function(grunt) {
     'ol2007',
     'ol2010',
     'ol2011',
-    'ol2013',
-    'android22',
+    'ol2013',    
+    'ol2015',
     'android4',
     'androidgmailapp',
     'iphone5s',
-    'iphone5',
+    'iphone5sios8',
+    'iphone6',
+    'iphone6plus',
     'ipadmini',
     'ipad',
     'gmailnew',
@@ -85,22 +87,14 @@ module.exports = function(grunt) {
     },
     htmlmin: {
       dist: {
-        options: {
-          removeRedundantAttributes: true,
-          collapseBooleanAttributes: true,
-          removeEmptyAttributes: true,
-          removeOptionalTags: true
+        options: {          
         },
         files: {
           'index.min.html': 'index.html'
         }
       },
       pkg: {
-        options: {
-          removeRedundantAttributes: true,
-          collapseBooleanAttributes: true,
-          removeEmptyAttributes: true,
-          removeOptionalTags: true
+        options: {          
         },
         files: {
           'index.pkg.html': 'index.pkg.html'
@@ -145,6 +139,16 @@ module.exports = function(grunt) {
           from: "src=img",
           to: "src=" + stagingServer + "img"
         }]
+      }
+    },
+    compress: {
+      main: {
+        options: {
+          archive: 'archive.zip'
+        },
+        files: [
+          {src:['*.html', 'img/**'], dest: '/', filter: 'isFile'}
+        ]
       }
     }
   });

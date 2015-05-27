@@ -32,7 +32,6 @@ var WebappGenerator = module.exports = function WebappGenerator(args, options, c
     while (i++ != ii) {
       if (this.selectedFeatures[i] != 'includeCore') {
         projectDep.push(this.selectedFeatures[i]);
-
         /*
         var libWithDep = getLibDep(this.selectedFeatures[i].id, this.vendorList);
         if(libWithDep) {
@@ -42,14 +41,14 @@ var WebappGenerator = module.exports = function WebappGenerator(args, options, c
           }
         }
         */
-
       }
     }
 
+    console.log ('projectDep', projectDep);
+
     this.bowerInstall(projectDep, {
       save: true,
-      callback: function () {
-        //console.log ("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+      callback: function () {        
       }
     });
 
@@ -97,14 +96,8 @@ WebappGenerator.prototype.welcome = function welcome() {
 
 WebappGenerator.prototype.askFor = function askFor() {
   var cb = this.async();
-
-  var i = -1, ii = this.vendorList.length - 1,
-    /*choicesList = [{
-      name: 'Lavender Core',
-      value: 'includeCore',
-      checked: false
-    }];*/
-
+  this["coreapp"] = "";
+  var i = -1, ii = this.vendorList.length - 1, 
   choicesList = [];
 
   while (i++ != ii) {
@@ -166,6 +159,18 @@ WebappGenerator.prototype.askFor = function askFor() {
 
     this.vendorStyleSheets = "";
     this.vendorGruntTasks = "";
+
+
+    this.gruntInit = "'bower-install'";    
+    
+    if(this.isCoreApp){
+        this["coreapp"] = "core-app='Main'"
+    }
+    if (this.includeBootstrap) {
+      this.vendorStyleSheets += styleTag("assets/vendor/bootstrap/dist/css/bootstrap.css");
+      this.vendorGruntTasks += ",\r\n\tbootstrap:{files:{\"" + this.devFolder + "/assets/vendor/bootstrap/dist/css/bootstrap.css\": \"" + this.devFolder + "/assets/vendor/bootstrap/less/bootstrap.less\"}}";
+      this.gruntInit += ", 'less:bootstrap'";
+    }
 
     if (this.includeJQUI) {
     	this.vendorStyleSheets += indent + styleTag("assets/vendor/jquery-ui/themes/base/jquery.ui.all.css");
