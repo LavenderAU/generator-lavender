@@ -42,7 +42,9 @@ module.exports = function(grunt) {
     'chromeyahoo'
   ];
   var stagingServer = "http://images.lav.net.au/<%=clientName%>/<%=projectName%>/",
-    stagingPath = "//192.168.203.248/inetpub/wwwroot/images.lav.net.au/<%=clientName%>/<%=projectName%>/";
+    stagingPath = "//192.168.203.248/inetpub/wwwroot/<%=clientName%>.lav.net.au/<%=projectName%>/",
+    imagesServer = "http://images.lav.net.au/<%=clientName%>/<%=projectName%>/",
+    imagesPath = "//192.168.203.248/inetpub/wwwroot/images.lav.net.au/<%=clientName%>/<%=projectName%>/";
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     watch: {
@@ -61,7 +63,7 @@ module.exports = function(grunt) {
     },
     connect: {
       options: {
-        port: 9000,
+        port: 9002,
         hostname: 'localhost'
       },
       livereload: {
@@ -82,7 +84,7 @@ module.exports = function(grunt) {
     },
     clean: {
       deploy: {
-        src: [stagingPath]
+        src: [stagingPath, imagesPath]
       }
     },
     htmlmin: {
@@ -128,7 +130,7 @@ module.exports = function(grunt) {
       },
       img: {
         src: 'img/*',
-        dest: stagingPath
+        dest: imagesPath
       }
     },
     replace: {
@@ -136,15 +138,15 @@ module.exports = function(grunt) {
         src: ['index.min.html'],
         overwrite: true,
         replacements: [{
-          from: "src=img",
-          to: "src=" + stagingServer + "img"
+          from: "src=\"img",
+          to: "src=\"" + imagesServer + "img"
         }]
       }
     },
     compress: {
       main: {
         options: {
-          archive: 'archive.zip'
+          archive: '<%=clientName%>_<%=projectName%>.zip'
         },
         files: [
           {src:['*.html', 'img/**'], dest: '/', filter: 'isFile'}
@@ -152,7 +154,7 @@ module.exports = function(grunt) {
       }
     }
   });
-  grunt.registerTask('build', ['htmlmin:dist', 'replace']);
+  grunt.registerTask('build', ['htmlmin:dist', 'replace', 'copy', 'litmus:account1', 'litmus:account2']);
   grunt.registerTask('deploy', ['htmlmin:dist', 'replace', 'copy', 'open:deploy']);
   grunt.registerTask('package', ['htmlmin:pkg']);
   grunt.registerTask('dev', ['connect', 'open:server', 'watch']);
