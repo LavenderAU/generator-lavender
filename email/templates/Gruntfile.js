@@ -54,11 +54,11 @@ module.exports = function(grunt) {
       },
       html: {
         files: ['*.html'],
-        tasks: []
+        tasks: ['htmlmin:dist', 'replace']
       },
       images: {
         files: ['**/*.jpg', '**/*.gif'],
-        tasks: []
+        tasks: ['htmlmin:dist', 'replace', 'clean:dist', 'deploy']
       }
     },
     connect: {
@@ -107,8 +107,8 @@ module.exports = function(grunt) {
       account1: {
         src: ['index.min.html'],
         options: {
-          username: '',
-          password: '',
+          username: '<%= litmusUsername1 %>',
+          password: '<%= litmusPassword1 %>',
           url: 'https://lavender.litmus.com',
           clients: emailClients
         }
@@ -116,8 +116,8 @@ module.exports = function(grunt) {
       account2: {
         src: ['index.min.html'],
         options: {
-          username: '',
-          password: '',
+          username: '<%= litmusUsername2 %>',
+          password: '<%= litmusPassword2 %>',
           url: 'https://lavender2.litmus.com',
           clients: emailClients
         }
@@ -138,8 +138,8 @@ module.exports = function(grunt) {
         src: ['index.min.html'],
         overwrite: true,
         replacements: [{
-          from: "src=\"img",
-          to: "src=\"" + imagesServer + "img"
+          from: 'src="img',
+          to: 'src="' + imagesServer + 'img'
         }]
       }
     },
@@ -157,7 +157,7 @@ module.exports = function(grunt) {
   grunt.registerTask('build', ['htmlmin:dist', 'replace', 'copy', 'litmus:account1', 'litmus:account2']);
   grunt.registerTask('deploy', ['htmlmin:dist', 'replace', 'copy', 'open:deploy']);
   grunt.registerTask('package', ['htmlmin:pkg']);
-  grunt.registerTask('dev', ['connect', 'open:server', 'watch']);
+  grunt.registerTask('serve', ['htmlmin:dist', 'replace', 'copy', 'connect', 'open:server', 'watch']);
   grunt.registerTask('litmuser', ['htmlmin:dist', 'replace', 'litmus:account1', 'litmus:account2']);
   grunt.registerTask('default', ['htmlmin:dist', 'replace', 'copy', 'litmus:account1', 'litmus:account2']);
 }

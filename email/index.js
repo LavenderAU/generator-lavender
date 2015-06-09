@@ -25,13 +25,29 @@ EmailGenerator.prototype.welcome = function welcome() {
     message: 'What is the job code for this project?',
     default: 'ABC123'
   }, {    
-    name: "clientName",
-    message: "And for which client?"    
+    name: 'clientName',
+    message: 'And for which client?'    
+  }, {
+    name: 'litmusUsername1',
+    message: 'Username for lavender.litmus.com:'
+  }, {
+    name: 'litmusPassword1',
+    message: 'Password:'    
+  }, {
+    name: 'litmusUsername2',
+    message: 'Username for lavender2.litmus.com:'
+  }, {
+    name: 'litmusPassword2',
+    message: 'Password:'    
   }];
 
   this.prompt(prompts, function(answers) {
     this.projectName = answers.projectName;
     this.clientName = answers.clientName;
+    this.litmusUsername1 = answers.litmusUsername1;
+    this.litmusPassword1 = answers.litmusPassword1;
+    this.litmusUsername2 = answers.litmusUsername2;
+    this.litmusPassword2 = answers.litmusPassword2;
     cb();
   }.bind(this));
 }
