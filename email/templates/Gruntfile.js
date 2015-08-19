@@ -41,7 +41,7 @@ module.exports = function(grunt) {
     'ffyahoo',
     'chromeyahoo'
   ];
-  var stagingServer = 'http://images.lav.net.au/<%=clientName%>/<%=projectName%>/',
+  var stagingServer = 'http://<%=clientName%>.lav.net.au/<%=projectName%>/',
     stagingPath = '//192.168.203.248/inetpub/wwwroot/<%=clientName%>.lav.net.au/<%=projectName%>/',
     imagesServer = 'http://images.lav.net.au/<%=clientName%>/<%=projectName%>/',
     imagesPath = '//192.168.203.248/inetpub/wwwroot/images.lav.net.au/<%=clientName%>/<%=projectName%>/';
