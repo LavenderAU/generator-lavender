@@ -45,6 +45,7 @@ module.exports = function(grunt) {
     stagingPath = '//192.168.203.248/inetpub/wwwroot/<%=clientName%>.lav.net.au/<%=projectName%>/',
     imagesServer = 'http://images.lav.net.au/<%=clientName%>/<%=projectName%>/',
     imagesPath = '//192.168.203.248/inetpub/wwwroot/images.lav.net.au/<%=clientName%>/<%=projectName%>/';
+
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     watch: {
@@ -57,8 +58,11 @@ module.exports = function(grunt) {
         tasks: ['htmlmin:dist', 'replace']
       },
       images: {
-        files: ['**/*.jpg', '**/*.gif'],
-        tasks: ['htmlmin:dist', 'replace', 'clean:dist', 'deploy']
+        files: ['**/*.jpg', '**/*.gif'],        tasks: ['htmlmin:dist', 'replace', 'clean:dist', 'deploy']
+      },
+      jade: {
+        files: ['*.jade', '*.json'],
+        tasks: ['jade:compile', 'htmlmin:dist', 'replace']
       }
     },
     connect: {
@@ -156,12 +160,29 @@ module.exports = function(grunt) {
           {src:['*.html', 'img/**'], dest: '/', filter: 'isFile'}
         ]
       }
+    },
+    jade: {
+      compile: {
+        options: {
+          client: false,
+          pretty: true,
+          data: function(dest,src) {
+            return require('./index.json');
+          }
+        },
+        files: [{
+          src: '**/*.jade',
+          dest: '',
+          expand:true,
+          ext: '.html'
+        }]
+      }
     }
   });
-  grunt.registerTask('build', ['htmlmin:dist', 'replace', 'copy', 'litmus:account1', 'litmus:account2']);
-  grunt.registerTask('deploy', ['htmlmin:dist', 'replace', 'copy', 'open:deploy']);
-  grunt.registerTask('package', ['htmlmin:pkg']);
-  grunt.registerTask('serve', ['htmlmin:dist', 'replace', 'copy', 'connect', 'open:server', 'watch']);
-  grunt.registerTask('litmuser', ['htmlmin:dist', 'replace', 'litmus:account1', 'litmus:account2']);
-  grunt.registerTask('default', ['htmlmin:dist', 'replace', 'copy', 'litmus:account1', 'litmus:account2']);
+  grunt.registerTask('build',     ['jade:compile', 'htmlmin:dist', 'replace', 'copy', 'litmus:account1', 'litmus:account2']);
+  grunt.registerTask('deploy',    ['jade:compile', 'htmlmin:dist', 'replace', 'copy', 'open:deploy']);
+  grunt.registerTask('package',   ['jade:compile', 'htmlmin:pkg']);
+  grunt.registerTask('serve',     ['jade:compile', 'htmlmin:dist', 'replace', 'copy', 'connect', 'open:server', 'watch']);
+  grunt.registerTask('litmuser',  ['jade:compile', 'htmlmin:dist', 'replace', 'litmus:account1', 'litmus:account2']);
+  grunt.registerTask('default',   ['jade:compile', 'htmlmin:dist', 'replace', 'copy', 'litmus:account1', 'litmus:account2']);
 }

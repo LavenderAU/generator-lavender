@@ -61,5 +61,7 @@ EmailGenerator.prototype.files = function files() {
   this.copy('_package.json', 'package.json');
   this.copy('_bower.json', 'bower.json');
   this.copy('p.gif', 'img/p.gif');
+  this.copy('index.json', 'index.json');
+  this.copy('_index.jade', 'index.jade');
   this.template('_index.html', 'index.html');
 };
