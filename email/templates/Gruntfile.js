@@ -11,7 +11,7 @@ var mountFolder = function(connect, dir) {
 
 module.exports = function(grunt) {
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
-  var emailClients = [    
+  var emailClients = [
     'appmail8',
     'notes8',
     'notes85',
@@ -21,7 +21,7 @@ module.exports = function(grunt) {
     'ol2007',
     'ol2010',
     'ol2011',
-    'ol2013',    
+    'ol2013',
     'ol2015',
     'android4',
     'androidgmailapp',
@@ -102,7 +102,7 @@ module.exports = function(grunt) {
         }
       },
       pkg: {
-        options: {          
+        options: {
           removeComments: true,
           collapseWhitespace: true
         },
@@ -179,10 +179,10 @@ module.exports = function(grunt) {
       }
     }
   });
-  grunt.registerTask('build',     ['jade:compile', 'htmlmin:dist', 'replace', 'copy', 'litmus:account1', 'litmus:account2']);
-  grunt.registerTask('deploy',    ['jade:compile', 'htmlmin:dist', 'replace', 'copy', 'open:deploy']);
-  grunt.registerTask('package',   ['jade:compile', 'htmlmin:pkg']);
-  grunt.registerTask('serve',     ['jade:compile', 'htmlmin:dist', 'replace', 'copy', 'connect', 'open:server', 'watch']);
-  grunt.registerTask('litmuser',  ['jade:compile', 'htmlmin:dist', 'replace', 'litmus:account1', 'litmus:account2']);
-  grunt.registerTask('default',   ['jade:compile', 'htmlmin:dist', 'replace', 'copy', 'litmus:account1', 'litmus:account2']);
-}
+  grunt.registerTask('build',     ['htmlmin:dist', 'replace', 'copy', 'litmus:account1', 'litmus:account2']);
+  grunt.registerTask('deploy',    ['htmlmin:dist', 'replace', 'copy', 'open:deploy']);
+  grunt.registerTask('package',   ['htmlmin:pkg']);
+  grunt.registerTask('serve',     ['htmlmin:dist', 'replace', 'copy', 'connect', 'open:server', 'watch']);
+  grunt.registerTask('litmuser',  ['htmlmin:dist', 'replace', 'litmus:account1', 'litmus:account2']);
+  grunt.registerTask('default',   ['htmlmin:dist', 'replace', 'copy', 'litmus:account1', 'litmus:account2']);
+};
