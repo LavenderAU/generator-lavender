@@ -58,7 +58,8 @@ module.exports = function(grunt) {
         tasks: ['htmlmin:dist', 'replace']
       },
       images: {
-        files: ['**/*.jpg', '**/*.gif'],        tasks: ['htmlmin:dist', 'replace', 'clean:dist', 'deploy']
+        files: ['**/*.jpg', '**/*.gif'],        
+        tasks: ['htmlmin:dist', 'replace', 'clean:dist', 'deploy']
       },
       jade: {
         files: ['*.jade', '*.json'],
@@ -107,7 +108,7 @@ module.exports = function(grunt) {
           collapseWhitespace: true
         },
         files: {
-          'index.pkg.html': 'index.pkg.html'
+          '<%=projectPrefix%>_index.html': 'index.html'
         }
       }
     },
@@ -120,7 +121,7 @@ module.exports = function(grunt) {
           url: 'https://lavender.litmus.com',
           clients: emailClients
         }
-      },
+      }/*,
       account2: {
         src: ['index.min.html'],
         options: {
@@ -129,7 +130,7 @@ module.exports = function(grunt) {
           url: 'https://lavender2.litmus.com',
           clients: emailClients
         }
-      }
+      }*/
     },
     copy: {
       html: {
@@ -139,6 +140,16 @@ module.exports = function(grunt) {
       img: {
         src: 'img/*',
         dest: imagesPath
+      },
+      package: {
+        expand:true,
+        dot: true,
+        cwd: 'img',
+        dest: 'images/',
+        src: ['*.{gif,jpg}'],
+        rename: function (dest, src) {
+          return dest + '<%=projectPrefix%>' + src;
+        }
       }
     },
     replace: {
@@ -149,15 +160,23 @@ module.exports = function(grunt) {
           from: 'src="img',
           to: 'src="' + imagesServer + 'img'
         }]
+      },
+      package: {
+        src: ['<%=projectPrefix%>_index.html'],        
+        overwrite: true,
+        replacements: [{
+          from: 'src="img/',
+          to: 'src="images/<%=projectPrefix%>_'
+        }]
       }
     },
     compress: {
       main: {
         options: {
-          archive: '<%=clientName%>_<%=projectName%>.zip'
+          archive: '<%=projectPrefix%>.zip'
         },
         files: [
-          {src:['*.html', 'img/**'], dest: '/', filter: 'isFile'}
+          {src:['<%=projectPrefix%>_index.html', 'images/**'], dest: '/', filter: 'isFile'}
         ]
       }
     },
@@ -179,10 +198,10 @@ module.exports = function(grunt) {
       }
     }
   });
-  grunt.registerTask('build',     ['htmlmin:dist', 'replace', 'copy', 'litmus:account1', 'litmus:account2']);
-  grunt.registerTask('deploy',    ['htmlmin:dist', 'replace', 'copy', 'open:deploy']);
+  grunt.registerTask('build',     ['htmlmin:dist', 'replace', 'copy:img', 'copy:html', 'litmus:account1']);
+  grunt.registerTask('deploy',    ['htmlmin:dist', 'replace', 'copy:img', 'copy:html', 'open:deploy']);
   grunt.registerTask('package',   ['htmlmin:pkg']);
-  grunt.registerTask('serve',     ['htmlmin:dist', 'replace', 'copy', 'connect', 'open:server', 'watch']);
-  grunt.registerTask('litmuser',  ['htmlmin:dist', 'replace', 'litmus:account1', 'litmus:account2']);
-  grunt.registerTask('default',   ['htmlmin:dist', 'replace', 'copy', 'litmus:account1', 'litmus:account2']);
+  grunt.registerTask('serve',     ['htmlmin:dist', 'replace', 'copy:img', 'copy:html', 'connect', 'open:server', 'watch']);
+  grunt.registerTask('litmuser',  ['htmlmin:dist', 'replace', 'litmus:account1']);
+  grunt.registerTask('default',   ['htmlmin:dist', 'replace', 'copy:img', 'copy:html', 'litmus:account1']);
 };
