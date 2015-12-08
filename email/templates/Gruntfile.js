@@ -121,16 +121,7 @@ module.exports = function(grunt) {
           url: 'https://lavender.litmus.com',
           clients: emailClients
         }
-      }/*,
-      account2: {
-        src: ['index.min.html'],
-        options: {
-          username: '<%= litmusUsername2 %>',
-          password: '<%= litmusPassword2 %>',
-          url: 'https://lavender2.litmus.com',
-          clients: emailClients
-        }
-      }*/
+      }
     },
     copy: {
       html: {

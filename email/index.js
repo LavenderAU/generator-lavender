@@ -34,22 +34,17 @@ EmailGenerator.prototype.welcome = function welcome() {
     name: 'litmusPassword1',
     message: 'Password:'    
   }, {
-    prefix: 'projectPrefix',
+    name: 'projectPrefix',
     message: 'Use prefix when packaging?',
     default: ''
-  }/*, {
-    name: 'litmusUsername2',
-    message: 'Username for lavender2.litmus.com:'
-  }, {
-    name: 'litmusPassword2',
-    message: 'Password:'    
-  }*/];
+  }];
 
   this.prompt(prompts, function(answers) {
-    this.projectName = answers.projectName;
-    this.clientName = answers.clientName;
-    this.litmusUsername1 = answers.litmusUsername1;
-    this.litmusPassword1 = answers.litmusPassword1;
+    this.projectName = answers.projectName || '';
+    this.clientName = answers.clientName || '';
+    this.litmusUsername1 = answers.litmusUsername1 || '';
+    this.litmusPassword1 = answers.litmusPassword1 || '';
+    this.projectPrefix = answers.projectPrefix || '';
     // this.litmusUsername2 = answers.litmusUsername2;
     // this.litmusPassword2 = answers.litmusPassword2;
     cb();
